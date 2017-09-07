@@ -1,0 +1,52 @@
+<div ng-controller="SideNavController as vm">
+  <md-sidenav md-theme="dark" class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" style="height:100vh;" md-whiteframe="2">
+    <md-toolbar class="md-tall">
+      <!-- ng-if="vm.auth.isAuthenticated()" -->
+      <span flex></span>
+      <div layout="row">
+        <div layout="column" class="md-padding">
+          <div class="material-icons" style="font-size:60px;">account_circle</div>
+          <div class="md-subhead">{{vm.storage.globals.userObject.fullname}}{{' ' + vm.storage.globals.userObject.lastname}}</div>
+          <div class="md-subhead col-md-10">{{vm.storage.globals.userObject.email}}</div>
+        </div>
+      </div>
+    </md-toolbar>
+    <!-- <md-toolbar class="md-tall">
+        ng-if="!vm.auth.isAuthenticated()"
+      <span flex></span>
+      <div layout="row">
+        <div layout="column" class="md-padding">
+          <div class="material-icons" style="font-size:60px;">account_circle</div>
+          <div class="md-subhead">Log in</div>
+          <div class="md-subhead">to continue.</div>
+        </div>
+      </div>
+    </md-toolbar> -->
+    <md-content layout-padding layout="column">
+      <md-list>
+        <!-- ng-if="vm.menu.shouldRender(vm.storage.globals.currentUser.username) && vm.auth.isAuthenticated()" -->
+        <div ng-repeat="item in vm.menu.items | orderBy: 'position'" ng-if="item.shouldRender(vm.storage.globals.currentUser);">
+          <md-list-item class="md-1-line" ui-sref="{{item.state}}" ng-click="vm.toggleLeft()">
+            <div class="md-list-item-text">
+              <md-icon class="material-icons">{{item.class}}</md-icon>
+              &nbsp; {{item.title}}
+            </div>
+          </md-list-item>
+        </div>
+        <md-divider></md-divider>
+        <md-list-item class="md-1-line" ng-click="vm.signout()">
+          <div class="md-list-item-text">
+            <md-icon>exit_to_app</md-icon>
+            &nbsp; Log out
+          </div>
+        </md-list-item>
+        <md-list-item class="md-1-line" ng-click="vm.help()">
+          <div class="md-list-item-text">
+            <md-icon>help</md-icon>
+            &nbsp; Help
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-content>
+  </md-sidenav>
+</div>

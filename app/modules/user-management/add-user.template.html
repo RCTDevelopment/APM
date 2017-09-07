@@ -1,0 +1,70 @@
+<md-dialog md-theme="dark" aria-label="New User">
+   <form ng-cloak>
+      <md-toolbar>
+         <div class="md-toolbar-tools">
+            <h2>New User</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+               <md-icon>clear</md-icon>
+            </md-button>
+         </div>
+      </md-toolbar>
+
+      <md-dialog-content>
+         <div class="md-dialog-content">
+            <div layout="row">
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Name</label>
+                  <md-icon class="material-icons" md-menu-align-target>perm_identity</md-icon>
+                  <input ng-model="user.fullname" type="text">
+               </md-input-container>
+
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Last Name</label>
+                  <input ng-model="user.lastname" type="text">
+               </md-input-container>
+            </div>
+
+            <div layout="row">
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>User Name</label>
+                  <md-icon class="material-icons" md-menu-align-target>cancel</md-icon>
+                  <input ng-model="user.username" type="text">
+               </md-input-container>
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Password</label>
+                  <md-icon class="material-icons" md-menu-align-target>phonelink_lock</md-icon>
+                  <input ng-model="user.unencryptedPassword" type="password">
+               </md-input-container>
+            </div>
+
+            <div layout="row">
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Phone Number</label>
+                  <md-icon class="material-icons" md-menu-align-target>phone</md-icon>
+                  <input ng-model="user.number" type="text">
+               </md-input-container>
+            </div>
+
+            <md-input-container class="md-icon-float md-block">
+               <label>Email</label>
+               <md-icon class="material-icons" md-menu-align-target>email</md-icon>
+               <input ng-model="user.email" type="text">
+            </md-input-container>
+            <h2 class="md-title">User roles</h2>
+            <div flex="100" ng-repeat="role in allRoles">
+               <md-checkbox ng-checked="exists(role, user.roles)" ng-click="toggle(role, user.roles)">
+                  {{ role.name }}
+               </md-checkbox>
+            </div>
+         </div>
+      </md-dialog-content>
+
+      <md-dialog-actions layout="row">
+         <span flex></span>
+         <md-button ng-click="answer('useful')">
+            Add
+         </md-button>
+      </md-dialog-actions>
+   </form>
+</md-dialog>

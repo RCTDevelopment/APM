@@ -1,0 +1,26 @@
+<md-content layout="row" class="md-padding" layout-align="center">
+   <md-card flex-gt-sm="60">
+      <md-card-title>
+         <md-card-title-text>
+            <span class="md-headline">Login</span>
+         </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+         <form class="form-horizontal">
+            <md-input-container class="md-icon-float md-block">
+               <label>Username</label>
+               <md-icon>perm_identity</md-icon>
+               <input ng-model="vm.username" type="text" id="username" required="string">
+            </md-input-container>
+             <md-input-container class="md-icon-float md-block">
+                <label>Password</label>
+                <md-icon>phonelink_lock</md-icon>
+                <input ng-model="vm.pwd" type="password" id="password" required="string">
+             </md-input-container>
+             <md-card-actions layout="row" layout-align="end center">
+               <md-button type="submit" class="md-raised md-accent" ng-click="vm.signin();">Login</md-button>
+            </md-card-actions>
+         </form>
+      </md-card-content>
+   </md-card>
+</md-content>

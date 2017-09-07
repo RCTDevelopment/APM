@@ -1,0 +1,82 @@
+<md-content class="md-padding">
+   <md-card>
+      <md-card-title>
+         <md-card-title-text>
+            <span class="md-headline">Hours vs Downtime</span>
+         </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+         <p>
+            This page still needs to be developed
+         </p>
+      </md-card-content>
+   </md-card>
+</md-content>
+
+<!-- <md-content class="md-padding">
+   <md-card>
+      <md-card-title>
+         <md-card-title-text>
+            <span class="md-headline">General Information</span>
+         </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+         <div layout="row">
+            <md-input-container flex="50" class="md-icon-float md-block">
+               <label>Full Name</label>
+               <md-icon class="material-icons" md-menu-align-target>perm_identity</md-icon>
+               <input ng-model="vm.user.fullname" type="text">
+            </md-input-container>
+
+            <md-input-container flex="50" class="md-icon-float md-block">
+               <label>Last Name</label>
+               <input ng-model="vm.user.lastname" type="text">
+            </md-input-container>
+
+         </div>
+
+         <div layout="row">
+            <md-input-container flex="50" class="md-icon-float md-block">
+               <label>User Name</label>
+               <md-icon class="material-icons" md-menu-align-target>cancel</md-icon>
+               <input ng-model="vm.user.username" type="text">
+            </md-input-container>
+            <md-input-container flex="50" class="md-icon-float md-block">
+               <label>New Password</label>
+               <md-icon class="material-icons" md-menu-align-target>phonelink_lock</md-icon>
+               <input ng-model="vm.newPassword" type="password">
+            </md-input-container>
+         </div>
+
+         <div layout="row">
+            <md-input-container flex="50" class="md-icon-float md-block">
+               <label>Phone Number</label>
+               <md-icon class="material-icons" md-menu-align-target>phone</md-icon>
+               <input ng-model="vm.user.number" type="text">
+            </md-input-container>
+            <md-input-container flex="50" class="md-icon-float md-block">
+               <label>Confirm new password</label>
+               <md-icon class="material-icons" md-menu-align-target>phonelink_lock</md-icon>
+               <input ng-model="vm.confirmNewPassword" type="password">
+            </md-input-container>
+         </div>
+
+         <md-input-container class="md-icon-float md-block">
+            <label>Email</label>
+            <md-icon class="material-icons" md-menu-align-target>email</md-icon>
+            <input ng-model="vm.user.email" type="text">
+         </md-input-container>
+         <div ng-if="vm.currentUser.roles.indexOf('USER_ADMIN')>-1">
+            <h2 class="md-title">User roles</h2>
+            <div flex="100" ng-repeat="role in vm.allRoles">
+               <md-checkbox ng-checked="vm.exists(role, vm.user.roles)" ng-click="vm.toggle(role, vm.user.roles)">
+                  {{ role.name }}
+               </md-checkbox>
+            </div>
+         </div>
+      </md-card-content>
+      <md-card-actions layout="row" layout-align="end center">
+         <md-button class="md-raised md-accent" ng-click="vm.update($event)">Save / Update</md-button>
+      </md-card-actions>
+   </md-card>
+</md-content> -->

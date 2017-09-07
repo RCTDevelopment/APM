@@ -1,0 +1,17 @@
+<md-content class="md-padding">
+   <div layout-gt-sm="row" layout-wrap ng-if="vm.menu.shouldRender(vm.user);">
+      <md-card flex-gt-sm="30" ui-sref="{{item.state}}" ng-repeat="item in vm.menu.items | orderBy: 'position'" ng-if="item.shouldRender(vm.user);" ng-hide="item.state == 'home'" style="height:180px;cursor:pointer;">
+         <md-card-title>
+            <md-card-title-text>
+               <span class="md-headline">{{item.title}}</span>
+               <span class="md-subhead">{{item.description}}</span>
+            </md-card-title-text>
+            <md-card-title-media>
+               <div class="md-media-sm card-media">
+                  <md-icon class="material-icons" style="font-size:70px;color:#0000FF;">{{item.class}}</md-icon>
+               </div>
+            </md-card-title-media>
+         </md-card-title>
+      </md-card>
+   </div>
+</md-content>

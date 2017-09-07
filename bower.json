@@ -1,0 +1,33 @@
+{
+  "name": "dbp-client",
+  "description": "Front-end application for Andru mining",
+  "version": "0.0.1",
+  "homepage": "http://gitlab.kses.net/DUF/DBP-Client.git",
+  "license": "MIT",
+  "private": true,
+  "authors": [
+    "kses"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "~1.6.0",
+    "angular-animate": "~1.6.0",
+    "angular-mocks": "~1.6.0",
+    "angular-resource": "~1.6.0",
+    "angular-route": "~1.6.0",
+    "angular-ui-router": "^0.4.2",
+    "angular-bootstrap": "1.3.x",
+    "ngstorage": "^0.3.11",
+    "angular-material": "^1.1.4",
+    "material-design-icons": "^3.0.1",
+    "angular-material-data-table": "^0.10.10",
+    "angular-file-upload": "^2.5.0"
+  },
+  "resolutions": {
+    "angular": ">=1.4.0"
+  }
+}

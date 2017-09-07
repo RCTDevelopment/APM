@@ -1,0 +1,40 @@
+<div id="LoginModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Authentication Required</h4>
+            </div>
+            <div class="modal-body">
+                <p>User needs to be logged in to view this page</p>
+            </div>
+            <div class="modal-footer" ng-controller="DbpclientController">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="goLogin()">Login</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="PermissionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Permission required</h4>
+            </div>
+            <div class="modal-body">
+                <p>User needs the correct permissions to access the page</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

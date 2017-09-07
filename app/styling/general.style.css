@@ -1,0 +1,75 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/angular/app/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.eot?#iefix) format('embedded-opentype'); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(/angular/app/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+       url(/angular/app/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
+       url(/angular/app/bower_components/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 26px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+@media (min-width: 768px) {
+.my-custom-container{
+    width:600px;
+}}
+
+@media (min-width: 1000px) {
+.my-custom-container{
+    width:1100px;
+}}
+
+@media (min-width: 1600px) {
+.my-custom-container{
+    width:1350px;
+}}
+
+.label {
+   color: #888;
+}
+
+.my-drop-zone {
+   border: solid 3px lightgray;
+}
+
+.nv-file-over {
+   border: solid 3px red;
+} /* Default class applied to drop zones on over */
+
+.another-file-over-class {
+   border: solid 3px green;
+}
+
+.upload-files {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/*.card-media md-icon {
+  font-size: 150px;
+}*/

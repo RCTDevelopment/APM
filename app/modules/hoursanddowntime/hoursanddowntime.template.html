@@ -1,18 +1,56 @@
 <md-content class="md-padding">
-   <md-card>
+  <md-card>
+    <md-card-title>
       <md-card-title>
          <md-card-title-text>
             <span class="md-headline">Hours vs Downtime</span>
          </md-card-title-text>
       </md-card-title>
       <md-card-content>
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Plant:</label>
+            <md-select ng-model="selectedPlant" ng-change="getTypes(selectedPlant)">
+              <md-option ng-repeat="plant in plants" value="{{plant.Plant}}">
+                {{plant.Plant}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Type:</label>
+            <md-select ng-model="selectedType" ng-change="getEquipment(selectedType,selectedPlant)">
+              <md-option ng-repeat="type in types" value="{{type.type}}">
+                {{type.type}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Equipment:</label>
+            <md-select ng-model="selectedEquipment">
+              <md-option ng-repeat="equipment in equipments" value="{{equipment.equipment}}">
+                {{equipment.equipment}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-button class="md-raised md-primary" ng-click="generate(selectedEquipment)">Generate</md-button>
+        </div>
+      </md-card-content>
+    </md-card-title>
+  </md-card>
+   <md-card>
+      <md-card-title>
+         <md-card-title-text>
+            <span class="md-headline"></span>
+         </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
         <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series"></canvas>
 
         <md-table-container>
-        <table md-table md-row-select multiple ng-model="selected">
+        <table md-table md-row-select multiple>
           <thead md-head>
             <tr md-row>
-              <th md-column>2867</th>
+              <th md-column>{{selectedEquipment}}</th>
               <th md-column ng-repeat="label in labels"><span>{{label}}</span></th>
             </tr>
           </thead>
@@ -23,7 +61,7 @@
             </tr>
             <tr md-row>
               <td md-cell>Downtime</td>
-              <td md-cell ng-repeat="time in dt">{{(time.Delay/60).toFixed(2)}}</td>
+              <td md-cell ng-repeat="time in downtimeArr.data">{{time.val}}</td>
             </tr>
           </tbody>
         </table>

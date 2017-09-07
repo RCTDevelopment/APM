@@ -10,40 +10,60 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
   //define a scope variable to bind to the DOM
   var vm = this;
   vm.hService = hoursanddowntimeService;
-
-
+  $scope.plants = [];
+  $scope.selectedPlant = {};
+  $scope.types = [];
+  $scope.selectedType = {};
+  $scope.equipments = [];
+  $scope.selectedEquipment = {};
+  $scope.downtimeArr = {data:[]};
 
   //define a scope variable to bind to the DOM
   init();
 
-  $scope.labels = [];
-  $scope.series = ['Hours worked', 'Downtimes'];
+  $scope.generate = function(equipment){
+    $scope.labels = [];
+    $scope.series = ['Hours worked', 'Downtimes'];
 
-  $scope.data = [
-    [],
-    []
-  ];
+    $scope.data = [
+      [],
+      []
+    ];
 
-  $scope.selected = [];
+    $scope.selected = [];
 
-  vm.hService.getHoursWorked().then(function(response){
-    $scope.hours = response.data;
-    angular.forEach($scope.hours,function(obj){
-      $scope.labels.push($scope.convertExcelDate(obj.Date));
-      $scope.data[0].push(obj.Total_Runtime);
+    vm.hService.getHoursWorked(equipment).then(function(response){
+      $scope.hours = response.data;
+      vm.hService.getDowntimes(equipment).then(function(response){
+        $scope.dt = response.data;
+
+        for(var i=1; i < Object.keys($scope.hours).length-1; i++)
+        {
+          $scope.labels.push($scope.convertExcelDate($scope.hours[i].Date));
+          $scope.data[0].push($scope.hours[i].Total_Runtime);
+        }
+
+        var c = 1;
+        for(var i=1; i < $scope.data[0].length; i++)
+        {
+          if($scope.dt[c].Date == $scope.hours[i].Date){
+              $scope.data[1].push(($scope.dt[c].Delay/60).toFixed(2)*(-1));
+              c++;
+          }
+          else {
+            $scope.data[1].push(0);
+          }
+        }
+      })
     })
-  })
+    //Fix downtime issue
+    for(var i = 0; i < $scope.data[1].length;i++){
+      $scope.downtimeArr.data.push({val : $scope.data[1][i]});
+    }
 
-  vm.hService.getDowntimes().then(function(response){
-    $scope.dt = response.data;
-    angular.forEach($scope.dt,function(obj) {
-      $scope.data[1].push((obj.Delay/60).toFixed(2)*(-1));
-    })
-  })
+  }
 
-console.log($scope.data[0])
-
-    $scope.convertExcelDate = function(serial) {
+  $scope.convertExcelDate = function(serial) {
      var utc_days  = Math.floor(serial - 25569);
      var utc_value = utc_days * 86400;
      var date_info = new Date(utc_value * 1000);
@@ -66,9 +86,25 @@ console.log($scope.data[0])
   function init() {
     if (principal.isAuthenticated) {
       vm.isAuthor = principal.isInAnyRole($state.current.data.roles);
+      //get all the plants on entering
+      vm.hService.getPlants().then(function(response){
+        $scope.plants = response.data
+      })
     //werk aan rerouting na not auth state toe as hier kak is. Log vir nou.
     } else {
       $state.go('login')
     }
+  }
+
+  $scope.getTypes = function(plant){
+    vm.hService.getTypes(plant).then(function(response){
+      $scope.types = response.data;
+    })
+  }
+
+  $scope.getEquipment = function(selectedType,selectedPlant){
+    vm.hService.getEquipments(selectedType,selectedPlant).then(function(response){
+      $scope.equipments = response.data;
+    })
   }
 }

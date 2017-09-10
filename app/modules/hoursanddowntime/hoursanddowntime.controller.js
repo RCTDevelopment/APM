@@ -36,16 +36,12 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
       $scope.hours = response.data;
       vm.hService.getDowntimes(equipment).then(function(response){
         $scope.dt = response.data;
-
-        for(var i=1; i < Object.keys($scope.hours).length-1; i++)
+        var c = 1;
+        console.log($scope.dt[1])
+        for(var i=1; i < Object.keys($scope.hours).length+1; i++)
         {
           $scope.labels.push($scope.convertExcelDate($scope.hours[i].Date));
           $scope.data[0].push($scope.hours[i].Total_Runtime);
-        }
-
-        var c = 1;
-        for(var i=1; i < $scope.data[0].length; i++)
-        {
           if($scope.dt[c].Date == $scope.hours[i].Date){
               $scope.data[1].push(($scope.dt[c].Delay/60).toFixed(2)*(-1));
               c++;
@@ -54,12 +50,25 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
             $scope.data[1].push(0);
           }
         }
+
+
+        for(var i=0; i < $scope.hours.length-1; i++)
+        {
+          console.log($scope.hours);
+          console.log($scope.dt[c].Date);
+          $scope.data[0][i].Date
+
+        }
+
+        //Fix downtime issue
+        for(var i = 1; i < $scope.data[1].length;i++){
+          $scope.downtimeArr.data.push({val : ($scope.data[1][i])*-1});
+
+        }
       })
     })
-    //Fix downtime issue
-    for(var i = 0; i < $scope.data[1].length;i++){
-      $scope.downtimeArr.data.push({val : $scope.data[1][i]});
-    }
+
+
 
   }
 

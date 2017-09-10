@@ -12,10 +12,10 @@ function HomeController($scope, $state, Authentication, menuService, $sessionSto
   init();
 
   function init() {
-  //  if (!vm.auth.isAuthenticated()) {
-    //  $state.go('login')
-  //  } else {
+   if (!vm.storage.globals) {
+     $state.go('login')
+   } else {
     vm.user = vm.storage.globals.currentUser;
-  //  }
+   }
   }
 }

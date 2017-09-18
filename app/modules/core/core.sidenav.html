@@ -1,16 +1,17 @@
 <div ng-controller="SideNavController as vm">
   <md-sidenav md-theme="dark" class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" style="height:100vh;" md-whiteframe="2">
-    <md-toolbar class="md-tall">
+    <md-content>
       <!-- ng-if="vm.auth.isAuthenticated()" -->
       <span flex></span>
       <div layout="row">
         <div layout="column" class="md-padding">
-          <div class="material-icons" style="font-size:60px;">account_circle</div>
+          <img src="angular/app/styling/logo.png"></img>
+          <!-- <div class="material-icons" style="font-size:60px;">account_circle</div>
           <div class="md-subhead">{{vm.storage.globals.userObject.fullname}}{{' ' + vm.storage.globals.userObject.lastname}}</div>
-          <div class="md-subhead col-md-10">{{vm.storage.globals.userObject.email}}</div>
+          <div class="md-subhead col-md-10">{{vm.storage.globals.userObject.email}}</div> -->
         </div>
       </div>
-    </md-toolbar>
+    </md-content>
     <!-- <md-toolbar class="md-tall">
         ng-if="!vm.auth.isAuthenticated()"
       <span flex></span>

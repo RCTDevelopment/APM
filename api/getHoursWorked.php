@@ -8,7 +8,7 @@ $data = json_decode($request_body);
 $eq = $data->Equipment;
 // Get the data
 $hours = array();
-$sql = "SELECT * FROM dbhm where Equipment= ". $eq." Group By Date";
+$sql = "SELECT *,SUM(Total_Runtime) AS tot_run FROM dbhm where Equipment= ". $eq." Group By Date";
 
 if($result = mysqli_query($connect,$sql))
 {
@@ -19,7 +19,7 @@ if($result = mysqli_query($connect,$sql))
   {
       $hours[$cr]['Date']    = $row['Date'];
       $hours[$cr]['Company']  = $row['Company'];
-      $hours[$cr]['Total_Runtime'] = $row['Total_Runtime'];
+      $hours[$cr]['Total_Runtime'] = $row['tot_run'];
 
       $cr++;
   }

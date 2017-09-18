@@ -18,12 +18,16 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
   $scope.selectedEquipment = {};
   $scope.downtimeArr = {data:[]};
 
+
   //define a scope variable to bind to the DOM
   init();
 
   $scope.generate = function(equipment){
     $scope.labels = [];
     $scope.series = ['Hours worked', 'Downtimes'];
+    Chart.defaults.global.colors = [ '#0000FA', '#ff6347', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+    $scope.totalHoursWorked = 0;
+    $scope.totalDowntime = 0;
 
     $scope.data = [
       [],
@@ -37,13 +41,15 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
       vm.hService.getDowntimes(equipment).then(function(response){
         $scope.dt = response.data;
         var c = 1;
-        console.log($scope.dt[1])
         for(var i=1; i < Object.keys($scope.hours).length+1; i++)
         {
           $scope.labels.push($scope.convertExcelDate($scope.hours[i].Date));
           $scope.data[0].push($scope.hours[i].Total_Runtime);
+          $scope.totalHoursWorked = $scope.totalHoursWorked + parseInt($scope.hours[i].Total_Runtime);
+
           if($scope.dt[c].Date == $scope.hours[i].Date){
               $scope.data[1].push(($scope.dt[c].Delay/60).toFixed(2)*(-1));
+              $scope.totalDowntime = $scope.totalDowntime + parseFloat($scope.dt[c].Delay/60);
               c++;
           }
           else {
@@ -51,19 +57,9 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
           }
         }
 
-
-        for(var i=0; i < $scope.hours.length-1; i++)
-        {
-          console.log($scope.hours);
-          console.log($scope.dt[c].Date);
-          $scope.data[0][i].Date
-
-        }
-
         //Fix downtime issue
-        for(var i = 1; i < $scope.data[1].length;i++){
+        for(var i = 0; i < $scope.data[1].length;i++){
           $scope.downtimeArr.data.push({val : ($scope.data[1][i])*-1});
-
         }
       })
     })

@@ -17,20 +17,17 @@ function UserController($state, Authentication, $sessionStorage, UserService, Di
 
   vm.update = function(ev) {
     if (vm.newPassword === vm.confirmNewPassword) {
-      if (vm.newPassword != null && vm.confirmNewPassword != null) {
-        vm.user.unencryptedPassword = vm.confirmNewPassword;
-        vm.newPassword = null;
-        vm.confirmNewPassword = null;
+      var user = {
+        username : vm.user.username,
+        password : vm.newPassword
       }
-      UserService.update(vm.user).then(function success(response) {
+      UserService.update(user).then(function success(response) {
         DialogService.showAlert(ev, 'Success', 'User updated successfuly.', 'Got it!');
         Authentication.getUserInfo(vm.currentUser.username).then(function success(response) {
           delete $sessionStorage.globals;
           var user_roles = [];
-          response.data[0].roles.forEach(function(role) {
-            user_roles.push(role.name)
-          })
-          Authentication.setCredentials(response.data[0].username, user_roles, response.data[0])
+          user_roles.push(response.data.role)
+          Authentication.setCredentials(response.data.username, user_roles, response.data)
         })
       }, function failure(response) {
         if (response.status === 401) {
@@ -46,32 +43,4 @@ function UserController($state, Authentication, $sessionStorage, UserService, Di
       vm.confirmNewPassword = null;
     }
   }
-
-  vm.toggle = function(item, list) {
-    var found = false;
-    var idx;
-    for (var i = 0; i < list.length; i++) {
-      if (list[i].roleId === item.roleId) {
-        found = true;
-        idx = i;
-        break;
-      }
-    }
-    if (found) {
-      list.splice(idx, 1);
-    } else {
-      list.push(item);
-    }
-  };
-
-  vm.exists = function(item, list) {
-    var found = false;
-    for (var i = 0; i < list.length; i++) {
-      if (list[i].roleId === item.roleId) {
-        found = true;
-        break;
-      }
-    }
-    return found;
-  };
 }

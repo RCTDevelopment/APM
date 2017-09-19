@@ -2,22 +2,16 @@ angular.module('user').service('UserService', userService);
 
 function userService($http) {
   this.update = function(user) {
-    return $http.put('/dbpservice/user/update', user);
+    return $http.post('/Angular/api/updateUser.php', user);
   }
   this.add = function(user) {
-    return $http.post('/dbpservice/user/create', user);
+    return $http.post('/Angular/api/addUser.php', user);
   }
   this.manage = function(user, action) {
     return $http.put('/dbpservice/user/manage?action=' + action, user)
   }
   this.delete = function(user) {
-    var conf = {
-      data: user,
-      headers: {
-        'Content-Type': "application/json;charset=utf-8"
-      }
-    }
-    return $http.delete('/dbpservice/user/delete', conf);
+    return $http.post('/Angular/api/deleteUser.php', user);
   }
   this.getAllRoles = function() {
     var roles = [{
@@ -27,18 +21,13 @@ function userService($http) {
     },
       {
         roleId: 2,
-        name: 'USER_ADMIN',
-        description: 'Manage User Accounts'
+        name: 'MANAGER',
+        description: 'View site reports'
       },
       {
         roleId: 3,
-        name: 'REQUESTER',
-        description: 'Request Schedules'
-      },
-      {
-        roleId: 4,
-        name: 'APPROVER',
-        description: 'Approve Schedules'
+        name: 'DIRECTOR',
+        description: 'View all report'
       }];
     return roles;
   }

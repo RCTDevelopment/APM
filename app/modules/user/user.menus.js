@@ -10,6 +10,6 @@ function menuConfig(menuService) {
     state: 'user',
     class: 'account_circle',
     description: 'Manage your own user profile.',
-    roles: ['ADMIN', 'USER_ADMIN', 'APPROVER', 'REQUESTER']
+    roles: ['ADMIN', 'MANAGER', 'DIRECTOR']
   });
 }

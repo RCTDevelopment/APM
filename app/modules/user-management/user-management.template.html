@@ -1,21 +1,6 @@
 <md-content class="md-padding">
    <md-card>
       <md-card-title>
-         <md-card-title-text>
-            <span class="md-headline">Hours vs Downtime</span>
-         </md-card-title-text>
-      </md-card-title>
-      <md-card-content>
-         <p>
-            This page still needs to be developed
-         </p>
-      </md-card-content>
-   </md-card>
-</md-content>
-
-<!-- <md-content class="md-padding">
-   <md-card>
-      <md-card-title>
          <md-toolbar class="md-table-toolbar md-default">
             <div class="md-toolbar-tools">
                <span>User Management Control Panel</span>
@@ -40,25 +25,18 @@
             <table md-table md-row-select="true" multiple="false" ng-model="selected" md-progress="promise">
                <thead md-head md-order="vm.query.order">
                   <tr md-row>
-                     <th md-column md-order-by="fullname"><span>Full Name</span></th>
-                     <th md-column md-order-by="lastname"><span>Last Name</span></th>
-                     <th md-column md-order-by="lastname"><span>Active</span></th>
-                     <th md-column md-numeric md-order-by="username" md-desc><span>User Name</span></th>
-                     <th md-column md-numeric><span>Number</span></th>
-                     <th md-column md-numeric><span>Email</span></th>
+                     <th md-column md-order-by="username"><span>User Name</span></th>
+                     <th md-column md-order-by="password"><span>Password</span></th>
+                     <th md-column md-order-by="role"><span>Role</span></th>
+                     <th md-column md-order-by="Plant"><span>Plant</span></th>
                   </tr>
                </thead>
                <tbody md-body style="cursor:pointer;">
                   <tr md-row md-select="user" md-auto-select="vm.options.autoSelect" ng-repeat="user in vm.usersTable.data | filter: vm.filter | orderBy: vm.query.order | limitTo: vm.query.limit : (vm.query.page -1) * vm.query.limit">
-                     <td md-cell>{{user.fullname}}</td>
-                     <td md-cell>{{user.lastname}}</td>
-                     <td md-cell>
-                        <span ng-if="user.suspended"><md-icon style="color:#EF5350;">close</md-icon></span>
-                        <span ng-if="!user.suspended"><md-icon style="color:#66BB6A;">check</md-icon></span>
-                     </td>
                      <td md-cell>{{user.username}}</td>
-                     <td md-cell>{{user.number}}</td>
-                     <td md-cell>{{user.email}}</td>
+                     <td md-cell>{{user.password}}</td>
+                     <td md-cell>{{user.role}}</td>
+                     <td md-cell>{{user.Plant}}</td>
                   </tr>
                </tbody>
             </table>
@@ -68,49 +46,42 @@
             <md-divider class="md-padding"></md-divider>
             <div layout="row">
                <md-input-container flex="50" class="md-icon-float md-block">
-                  <label>Full Name</label>
+                  <label>User Name</label>
                   <md-icon class="material-icons" md-menu-align-target>perm_identity</md-icon>
-                  <input ng-model="selected[0].fullname" type="text">
-               </md-input-container>
-
-               <md-input-container flex="50" class="md-icon-float md-block">
-                  <label>Last Name</label>
-                  <input ng-model="selected[0].lastname" type="text">
+                  <input ng-model="selected[0].username" type="text">
                </md-input-container>
             </div>
             <div layout="row">
                <md-input-container flex="50" class="md-icon-float md-block">
-                  <label>User Name</label>
-                  <md-icon class="material-icons" md-menu-align-target>cancel</md-icon>
-                  <input ng-model="selected[0].username" type="text">
+                  <label>New Password</label>
+                  <md-icon class="material-icons" md-menu-align-target>phonelink_lock</md-icon>
+                  <input ng-model="vm.newPassword" type="password">
                </md-input-container>
-               <md-switch flex="50" ng-change="vm.toggleSuspend()" ng-disabled="selected[0].validatorA === vm.userObject.userId && selected[0].validatorB === 0" ng-model="selected[0].suspended" aria-label="Suspended switch">
-                  <md-tooltip ng-if="selected[0].validatorA === vm.userObject.userId && selected[0].validatorB === 0" md-direction="top">{{vm.userObject.fullname}} cant activate user.</md-tooltip>
-                  <strong>Suspended</strong>
-               </md-switch>
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Confirm new password</label>
+                  <md-icon class="material-icons" md-menu-align-target>phonelink_lock</md-icon>
+                  <input ng-model="vm.confirmNewPassword" type="password">
+               </md-input-container>
             </div>
-
-            <md-input-container class="md-icon-float md-block">
-               <label>Phone Number</label>
-               <md-icon class="material-icons" md-menu-align-target>phone</md-icon>
-               <input ng-model="selected[0].number" type="text">
-            </md-input-container>
-
-            <md-input-container class="md-icon-float md-block">
-               <label>Email</label>
-               <md-icon class="material-icons" md-menu-align-target>email</md-icon>
-               <input ng-model="selected[0].email" type="text">
-            </md-input-container>
-
             <h2 class="md-title">User roles</h2>
-            <div flex="50" ng-repeat="role in vm.allRoles">
-               <md-checkbox ng-checked="vm.exists(role, selected[0].roles)" ng-click="vm.toggle(role, selected[0].roles)">
+            <md-radio-group flex="50" ng-model="vm.selectedRole">
+               <md-radio-button ng-repeat="role in vm.allRoles" ng-value="role.name">
                   {{ role.name }}
-               </md-checkbox>
+               </md-radio-button>
+            </md-radio-group>
+            <div layout="row" ng-show="vm.selectedRole == 'MANAGER'">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Plant:</label>
+                <md-select ng-model="vm.selectedPlant">
+                  <md-option ng-repeat="plant in $root.plants" value="{{plant.Plant}}">
+                    {{plant.Plant}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
             </div>
             <md-button class="md-raised md-accent" ng-click="vm.update($event)">Save / Update</md-button>
             <md-button class="md-raised md-warn" ng-click="vm.delete($event)">Delete user</md-button>
          </div>
       </md-card-content>
    </md-card>
-</md-content> -->
+</md-content>

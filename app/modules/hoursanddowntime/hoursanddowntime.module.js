@@ -17,7 +17,7 @@ function routeConfig($stateProvider) {
     data: {
       pageTitle: 'Hours vs Downtime',
       pageDescription: 'Compare hours and downtime of equipment',
-      roles: ['REQUESTER', 'APPROVER']
+      roles: ['ADMIN', 'MANAGER','DIRECTOR']
     }
   })
 }

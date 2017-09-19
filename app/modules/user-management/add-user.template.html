@@ -12,50 +12,34 @@
 
       <md-dialog-content>
          <div class="md-dialog-content">
-            <div layout="row">
-               <md-input-container flex="50" class="md-icon-float md-block">
-                  <label>Name</label>
-                  <md-icon class="material-icons" md-menu-align-target>perm_identity</md-icon>
-                  <input ng-model="user.fullname" type="text">
-               </md-input-container>
-
-               <md-input-container flex="50" class="md-icon-float md-block">
-                  <label>Last Name</label>
-                  <input ng-model="user.lastname" type="text">
-               </md-input-container>
-            </div>
 
             <div layout="row">
                <md-input-container flex="50" class="md-icon-float md-block">
                   <label>User Name</label>
-                  <md-icon class="material-icons" md-menu-align-target>cancel</md-icon>
+                  <md-icon class="material-icons" md-menu-align-target>perm_identity</md-icon>
                   <input ng-model="user.username" type="text">
                </md-input-container>
                <md-input-container flex="50" class="md-icon-float md-block">
                   <label>Password</label>
                   <md-icon class="material-icons" md-menu-align-target>phonelink_lock</md-icon>
-                  <input ng-model="user.unencryptedPassword" type="password">
+                  <input ng-model="user.password" type="password">
                </md-input-container>
             </div>
-
-            <div layout="row">
-               <md-input-container flex="50" class="md-icon-float md-block">
-                  <label>Phone Number</label>
-                  <md-icon class="material-icons" md-menu-align-target>phone</md-icon>
-                  <input ng-model="user.number" type="text">
-               </md-input-container>
-            </div>
-
-            <md-input-container class="md-icon-float md-block">
-               <label>Email</label>
-               <md-icon class="material-icons" md-menu-align-target>email</md-icon>
-               <input ng-model="user.email" type="text">
-            </md-input-container>
             <h2 class="md-title">User roles</h2>
-            <div flex="100" ng-repeat="role in allRoles">
-               <md-checkbox ng-checked="exists(role, user.roles)" ng-click="toggle(role, user.roles)">
+            <md-radio-group flex="100" ng-model="user.role">
+               <md-radio-button ng-repeat="role in allRoles" ng-value="role.name">
                   {{ role.name }}
-               </md-checkbox>
+               </md-radio-button>
+            </md-radio-group>
+            <div layout="row" ng-show="user.role == 'MANAGER'">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Plant:</label>
+                <md-select ng-model="user.plant">
+                  <md-option ng-repeat="plant in $root.plants" value="{{plant.Plant}}">
+                    {{plant.Plant}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
             </div>
          </div>
       </md-dialog-content>

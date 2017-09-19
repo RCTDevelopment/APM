@@ -3,7 +3,6 @@ require 'connect.php';
 
 $connect = connect();
 
-$request_body = file_get_contents('php://input');
 
 // Get the data
 $plants = array();

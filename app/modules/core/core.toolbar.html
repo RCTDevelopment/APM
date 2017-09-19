@@ -5,8 +5,7 @@
     </md-button>
     <span>{{vm.state.current.data.pageTitle}}</span>
     <span flex></span>
-    <md-button ng-click="vm.goLogin()">
-      <!-- ng-show="!vm.auth.isAuthenticated()" -->
+    <md-button ng-click="vm.goLogin()" ng-show="!vm.auth.isAuthenticated()">
         <span>Login</span>
    </md-button>
   </div>

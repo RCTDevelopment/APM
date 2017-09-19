@@ -7,7 +7,8 @@ function authentication($http, $sessionStorage, $localStorage) {
 
   this.login = function(username, password) {
     var login_string =
-    { 'username':  username,
+    {
+      'username':  username,
       'password' : password
     }
     var conf = {
@@ -19,25 +20,33 @@ function authentication($http, $sessionStorage, $localStorage) {
   };
 
   this.getUserInfo = function(username) {
-    return $http.get('/angular/api/getUserInfo.php',{username:"andru"});
+    var user_string = {
+      'username' : username
+    }
+    var conf = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    };
+    return $http.post('/angular/api/getUserInfo.php',user_string,conf);
   }
 
   this.setCredentials = function(username, roles, user_object) {
     $sessionStorage.globals = {
       currentUser: {
-        username: 'andru',
-        roles: ['ADMIN', 'USER_ADMIN', 'REQUESTER', 'APPROVER']
+        username: username,
+        roles: roles
       },
-      userObject: {username:'andru',password:'andru'}
+      userObject: user_object
     };
   };
 
   this.isAuthenticated = function() {
-    //if ($sessionStorage.globals) {
+    if ($sessionStorage.globals) {
       return true;
-    //} else {
-      //return false;
-    //}
+    } else {
+      return false;
+    }
   }
 
   this.isRole = function(role) {

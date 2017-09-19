@@ -17,7 +17,7 @@ function routeConfig($stateProvider) {
     data: {
       pageTitle: 'User',
       pageDescription: 'User account information',
-      roles: ['ADMIN', 'USER_ADMIN', 'REQUESTER', 'APPROVER']
+      roles: ['ADMIN', 'MANAGER', 'DIRECTOR']
     }
   })
 }

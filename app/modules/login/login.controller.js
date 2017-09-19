@@ -3,31 +3,27 @@
 //Register a new controller for your module dockingStations
 angular.module('login').controller('LoginController', LoginController);
 
-LoginController.$inject = ['$state', '$http', 'Authentication', '$sessionStorage'];
+LoginController.$inject = ['$state', '$http', 'Authentication', '$sessionStorage','DialogService'];
 
-function LoginController($state, $http, Authentication, $sessionStorage) {
+function LoginController($state, $http, Authentication, $sessionStorage,DialogService) {
   var vm = this;
 
   vm.username = null;
   vm.pwd = null;
 
-  vm.signin = function() {
+  vm.signin = function(ev) {
     Authentication.login(vm.username, vm.pwd).then(function success(response) {
       Authentication.getUserInfo(vm.username).then(function success(response) {
         var user_roles = [];
-        // response.data[0].roles.forEach(function(role) {
-        //   user_roles.push(role.name)
-        // })
-        user_roles.push("ADMIN")
-        Authentication.setCredentials(response.data[0].username, user_roles, response.data[0])
-        Authentication.isAuthenticated = true;
+        user_roles.push(response.data.role)
+        Authentication.setCredentials(response.data.username, user_roles, response.data)
         if (Authentication.isAuthenticated) {
           $state.go('home');
         }
      })
     }, function error(response) {
-      console.log('Could not log in, ERRORRRRRR')
-      console.log(response);
+      DialogService.showAlert(ev,'Password', 'Incorrect login details.', 'Re enter');
+      vm.pwd = null;
     });
   };
 }

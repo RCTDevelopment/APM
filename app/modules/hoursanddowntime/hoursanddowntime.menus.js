@@ -10,6 +10,6 @@ function menuConfig(menuService) {
     state: 'hoursanddowntime',
     class: 'assignment',
     description: 'Compare hours and downtime of equipment',
-    roles: ['REQUESTER', 'APPROVER']
+    roles: ['ADMIN', 'MANAGER','DIRECTOR']
   });
 }

@@ -10,6 +10,6 @@ function menuConfig(menuService) {
     state: 'userManagement',
     class: 'supervisor_account',
     description: 'Manage Users of the platform',
-    roles: ['USER_ADMIN']
+    roles: ['ADMIN']
   });
 }

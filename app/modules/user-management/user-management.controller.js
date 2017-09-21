@@ -65,7 +65,6 @@ function UserManagementController($state, $scope, Authentication, DialogService,
         }
         $scope.selected[0].password = vm.newPassword;
         $scope.selected[0].role = vm.selectedRole;
-        console.log($scope.selected[0]);
         UserService.update($scope.selected[0]).then(function success(response) {
           DialogService.showAlert(ev, 'Update', $scope.selected[0].username + ' was updated successfuly.', 'Got it!');
           $scope.selected = [];

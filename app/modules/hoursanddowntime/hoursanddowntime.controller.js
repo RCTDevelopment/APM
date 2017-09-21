@@ -25,7 +25,7 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
   $scope.generate = function(equipment){
     $scope.labels = [];
     $scope.series = ['Hours worked', 'Downtimes'];
-    Chart.defaults.global.colors = [ '#0000FA', '#ff6347', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+    Chart.defaults.global.colors = [ '#0085CF', '#ff6347', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
     $scope.totalHoursWorked = 0;
     $scope.totalDowntime = 0;
 
@@ -43,7 +43,7 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
         var c = 1;
         for(var i=1; i < Object.keys($scope.hours).length+1; i++)
         {
-          $scope.labels.push($scope.convertExcelDate($scope.hours[i].Date));
+          $scope.labels.push($scope.hours[i].Date);
           $scope.data[0].push($scope.hours[i].Total_Runtime);
           $scope.totalHoursWorked = $scope.totalHoursWorked + parseInt($scope.hours[i].Total_Runtime);
 
@@ -57,7 +57,6 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
           }
         }
 
-        //Fix downtime issue
         for(var i = 0; i < $scope.data[1].length;i++){
           $scope.downtimeArr.data.push({val : ($scope.data[1][i])*-1});
         }

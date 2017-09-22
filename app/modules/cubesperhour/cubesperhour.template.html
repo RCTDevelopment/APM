@@ -39,15 +39,15 @@
               </md-option>
             </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm ng-if="selectedType=='type' || selectedType=='equipment'">
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='type' || selectedType=='equipment'">
             <label>Type:</label>
-            <md-select ng-model="selectedType" ng-change="getEquipment(selectedType,selectedPlant)">
+            <md-select ng-model="chosenType" ng-change="getEquipment(chosenType,selectedPlant)">
               <md-option ng-repeat="type in types" value="{{type.type}}">
                 {{type.type}}
               </md-option>
             </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm ng-if="selectedType=='equipment'">
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='equipment'">
             <label>Equipment:</label>
             <md-select ng-model="selectedEquipment">
               <md-option ng-repeat="equipment in equipments" value="{{equipment.equipment}}">
@@ -55,7 +55,7 @@
               </md-option>
             </md-select>
           </md-input-container>
-          <md-button class="md-raised md-primary" ng-click="generate(selectedEquipment)" style="background-color:#0085CF">Generate</md-button>
+          <md-button class="md-raised md-primary" ng-click="generate()" style="background-color:#0085CF">Generate</md-button>
         </div>
       </md-card-content>
     </md-card-title>
@@ -71,21 +71,20 @@
         <table md-table md-row-select multiple>
           <thead md-head>
             <tr md-row>
-              <th md-column>{{selectedEquipment}}</th>
-              <th></th>
-              <th md-column ng-repeat="label in labels"><span>{{label}}</span></th>
+              <th md-column>{{selectedPlant}}</th>
+              <th md-column>Cubes</th>
+              <th md-column ng-hide="chosenType == 'Dozer'">Tons</th>
+              <th md-column>Run Time</th>
+              <th md-column>Cubes/Run Time</th>
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row>
-              <td md-cell>Hours Worked</td>
-              <td md-cell>Total : {{totalHoursWorked}}</td>
-              <td md-cell ng-repeat="time in hours">{{time.Total_Runtime}}</td>
-            </tr>
-            <tr md-row>
-              <td md-cell>Downtime</td>
-              <td md-cell>Total : {{totalDowntime}}</td>
-              <td md-cell ng-repeat="time in downtimeArr.data">{{time.val}}</td>
+            <tr md-row ng-repeat="cube in cubes">
+              <td md-cell>{{cube.Date}}</td>
+              <td md-cell>{{cube.Cubes}}</td>
+              <td md-cell ng-hide="chosenType=='Dozer'">{{cube.Tons}}</td>
+              <td md-cell>{{cube.total_runtime}}</td>
+              <td md-cell>{{cube.cubes_per_runtime}}</td>
             </tr>
           </tbody>
         </table>

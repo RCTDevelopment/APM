@@ -13,7 +13,7 @@
 
   // Get the data
   $plants = array();
-  $sql = "SELECT Date, Plant, SUM(Total_Runtime) AS Total FROM dbhm WHERE Type='".$type."' AND Plant = '".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Date";
+  $sql = "SELECT Date, Plant, SUM(Total_Runtime) AS Total FROM dbhm WHERE Type='".$type."' AND Plant = '".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Date ORDER BY Date DESC";
 
   if($result = mysqli_query($connect,$sql))
   {

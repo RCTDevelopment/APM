@@ -14,7 +14,7 @@
   // Get the data
   $plants = array();
   if($type == 'Excavator'){
-    $sql = "SELECT Date,Excavator,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Excavator='".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Date ORDER BY Date DESC";
+    $sql = "SELECT Month_Period,Excavator,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Excavator='".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Month_Period ORDER BY Date DESC";
 
     if($result = mysqli_query($connect,$sql))
     {
@@ -24,15 +24,15 @@
       while($row = mysqli_fetch_assoc($result))
       {
           $plants[$cr]['Cubes']    = $row['totalcubes'];
-          $plants[$cr]['Date']    = $row['Date'];
+          $plants[$cr]['Date']    = $row['Month_Period'];
           $plants[$cr]['Equipment']    = $row['Excavator'];
           $plants[$cr]['Tons']  = $row['totalTons'];
           $cr++;
       }
     }
   }
-  else if($type == 'Truck' || $type == "Trucks"){
-    $sql = "SELECT Date,Truck,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Truck='".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Date ORDER BY Date DESC";
+  else if($type == 'Truck'){
+    $sql = "SELECT Month_Period,Truck,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Truck='".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Month_Period ORDER BY Date DESC";
 
     if($result = mysqli_query($connect,$sql))
     {
@@ -42,7 +42,7 @@
       while($row = mysqli_fetch_assoc($result))
       {
           $plants[$cr]['Cubes']    = $row['totalcubes'];
-          $plants[$cr]['Date']    = $row['Date'];
+          $plants[$cr]['Date']    = $row['Month_Period'];
           $plants[$cr]['Equipment']    = $row['Truck'];
           $plants[$cr]['Tons'] =$row['totalTons'];
           $cr++;
@@ -50,7 +50,7 @@
     }
   }
   else if($type == 'Dozer'){
-    $dozerGet = "SELECT Date,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime,Dozer FROM dbdc WHERE Dozer = '".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Date ORDER BY Date DESC";
+    $dozerGet = "SELECT Month_Period,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime,Dozer FROM dbdc WHERE Dozer = '".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Month_Period ORDER BY Date DESC";
     if($result = mysqli_query($connect,$dozerGet))
     {
       $count = mysqli_num_rows($result);
@@ -58,7 +58,7 @@
       $cr = 1;
       while($row = mysqli_fetch_assoc($result))
       {
-          $plants[$cr]['Date'] = $row['Date'];
+          $plants[$cr]['Date'] = $row['Month_Period'];
           $plants[$cr]['Equipment'] = $row['Dozer'];
           $plants[$cr]['Cubes']    = $row['TotalCubes'];
           $plants[$cr]['total_runtime'] = $row['TotalTime']/60;

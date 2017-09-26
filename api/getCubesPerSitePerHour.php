@@ -8,11 +8,10 @@
   $data = json_decode($request_body);
   $plant = $data->plant;
   $startDate = $data->startDate;
-  $endDate = $data->endDate;
 
   // Get the data
   $plants = array();
-  $sql = "SELECT Date,Plant,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Plant='".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Date ORDER BY Date DESC";
+  $sql = "SELECT Date,Time,Plant,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Plant='".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') GROUP BY Date,Time ORDER BY Date DESC";
 
   if($result = mysqli_query($connect,$sql))
   {
@@ -23,6 +22,7 @@
     {
         $plants[$cr]['Cubes']    = $row['totalcubes'];
         $plants[$cr]['Date']    = $row['Date'];
+        $plants[$cr]['Time'] = $row['Time'];
         $plants[$cr]['Plant']    = $row['Plant'];
         $plants[$cr]['Tons'] =$row['totalTons'];
         $cr++;
@@ -30,7 +30,7 @@
   }
 
 
-  $dozerGet = "SELECT SUM(Cubes) AS TotalCubes FROM dbdc WHERE Plant = '".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Date ORDER BY Date DESC ";
+  $dozerGet = "SELECT SUM(Cubes) AS TotalCubes FROM dbdc WHERE Plant = '".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') GROUP BY Date,Time ORDER BY Date DESC ";
   if($result = mysqli_query($connect,$dozerGet))
   {
     $count = mysqli_num_rows($result);

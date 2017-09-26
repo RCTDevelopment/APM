@@ -9,11 +9,10 @@
   $type = $data->type;
   $plant = $data->plant;
   $startDate = $data->startDate;
-  $endDate = $data->endDate;
 
   // Get the data
   $plants = array();
-  $sql = "SELECT Date,Plant,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Plant='".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Date ORDER BY Date DESC";
+  $sql = "SELECT Date,Time,Plant,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Plant='".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') group by Date,Time ORDER BY Date DESC";
 
   if($result = mysqli_query($connect,$sql))
   {
@@ -23,6 +22,7 @@
     while($row = mysqli_fetch_assoc($result))
     {
         $plants[$cr]['Cubes']    = $row['totalcubes'];
+        $plants[$cr]["Time"] = $row['Time'];
         $plants[$cr]['Date']    = $row['Date'];
         $plants[$cr]['Plant']    = $row['Plant'];
         $plants[$cr]['Tons'] =$row['totalTons'];

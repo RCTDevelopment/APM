@@ -13,7 +13,7 @@
 
   // Get the data
   $plants = array();
-  $sql = "SELECT Date,Plant,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Plant='".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Date ORDER BY Date DESC";
+  $sql = "SELECT Month_Period, Plant, SUM(Total_Runtime) AS Total FROM dbhm WHERE Type='".$type."' AND Plant = '".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Month_Period ORDER BY Date DESC";
 
   if($result = mysqli_query($connect,$sql))
   {
@@ -22,13 +22,13 @@
     $cr = 1;
     while($row = mysqli_fetch_assoc($result))
     {
-        $plants[$cr]['Cubes']    = $row['totalcubes'];
-        $plants[$cr]['Date']    = $row['Date'];
+        $plants[$cr]['Total_Runtime']    = $row['Total'];
+        $plants[$cr]['Date']    = $row['Month_Period'];
         $plants[$cr]['Plant']    = $row['Plant'];
-        $plants[$cr]['Tons'] =$row['totalTons'];
         $cr++;
     }
   }
+
 
   $json = json_encode($plants);
   echo $json;

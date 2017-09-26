@@ -14,7 +14,7 @@
   // Get the data
   $plants = array();
   if($type=='Truck' || $type == 'Trucks'){
-    $sql = "SELECT Date, Type,Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE Equipment='".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Date ORDER BY Date DESC";
+    $sql = "SELECT Month_Period, Type,Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE Equipment='".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Month_Period ORDER BY Date DESC";
 
     if($result = mysqli_query($connect,$sql))
     {
@@ -24,14 +24,14 @@
       while($row = mysqli_fetch_assoc($result))
       {
           $plants[$cr]['Total_Runtime']    = $row['Total'];
-          $plants[$cr]['Date']    = $row['Date'];
+          $plants[$cr]['Date']    = $row['Month_Period'];
           $plants[$cr]['Equipment']    = $row['Equipment'];
           $cr++;
       }
     }
   }
   else if($type =='Excavator'){
-    $sql = "SELECT Date, Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE Equipment='".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Date ORDER BY Date DESC";
+    $sql = "SELECT Month_Period, Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE Equipment='".$equipment."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Month_Period ORDER BY Date DESC";
 
     if($result = mysqli_query($connect,$sql))
     {
@@ -41,7 +41,7 @@
       while($row = mysqli_fetch_assoc($result))
       {
           $plants[$cr]['Total_Runtime']    = $row['Total'];
-          $plants[$cr]['Date']    = $row['Date'];
+          $plants[$cr]['Date']    = $row['Month_Period'];
           $plants[$cr]['Equipment']    = $row['Equipment'];
           $cr++;
       }

@@ -23,9 +23,10 @@
           <div layout-gt-sm>
             <span>From: </span><md-datepicker flex=50 ng-model="startDate" md-placeholder="Enter date"
                 md-max-date="endDate"></md-datepicker>
-
-            <span>To: </span><md-datepicker flex=50 ng-model="endDate" md-placeholder="Enter date"
-                md-min-date="startDate" md-max-date="maxDate"></md-datepicker>
+            <div ng-show="selectedTime!='hour'">
+              <span>To: </span><md-datepicker flex=50 ng-model="endDate" md-placeholder="Enter date"
+                  md-min-date="startDate" md-max-date="maxDate"></md-datepicker>
+            </div>
           </div>
 
 
@@ -55,7 +56,7 @@
               </md-option>
             </md-select>
           </md-input-container>
-          <md-button class="md-raised md-primary" ng-click="generate()" style="background-color:#0085CF">Generate</md-button>
+          <md-button class="md-raised md-primary" ng-click="generate($event)" style="background-color:#0085CF">Generate</md-button>
         </div>
       </md-card-content>
     </md-card-title>
@@ -74,17 +75,18 @@
               <th md-column>{{selectedPlant}}</th>
               <th md-column>Cubes</th>
               <th md-column ng-hide="chosenType == 'Dozer'">Tons</th>
-              <th md-column>Run Time</th>
-              <th md-column>Cubes/Run Time</th>
+              <th md-column ng-show="selectedTime!='hour'">Run Time</th>
+              <th md-column ng-show="selectedTime!='hour'">Cubes/Run Time</th>
             </tr>
           </thead>
           <tbody md-body>
             <tr md-row ng-repeat="cube in cubes">
-              <td md-cell>{{cube.Date}}</td>
+              <td md-cell ng-show="selectedTime!='hour'">{{cube.Date}}</td>
+              <td md-cell ng-show="selectedTime=='hour'">{{cube.Time}}</td>
               <td md-cell>{{cube.Cubes}}</td>
               <td md-cell ng-hide="chosenType=='Dozer'">{{cube.Tons}}</td>
-              <td md-cell>{{cube.total_runtime}}</td>
-              <td md-cell>{{cube.cubes_per_runtime}}</td>
+              <td md-cell ng-show="selectedTime!='hour'">{{cube.total_runtime}}</td>
+              <td md-cell ng-show="selectedTime!='hour'">{{cube.cubes_per_runtime}}</td>
             </tr>
           </tbody>
         </table>

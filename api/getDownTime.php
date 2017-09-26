@@ -10,7 +10,7 @@ $eq = $data->Equipment;
 
 // Get the data
 $hours = array();
-$sql = "SELECT *, SUM(Delay) AS totalDelay FROM dbdt where Equipment= ". $eq." GROUP BY Date";
+$sql = "SELECT *, SUM(Delay) AS totalDelay FROM dbdt where Equipment= ". $eq." GROUP BY Date ORDER BY Date DESC";
 
 if($result = mysqli_query($connect,$sql))
 {

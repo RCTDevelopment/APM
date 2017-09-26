@@ -1,5 +1,18 @@
 'use strict';
 
+
+angular
+  .module('andruclient')
+  .config(dateConfig);
+
+dateConfig.$inject = ['$mdDateLocaleProvider'];
+
+function dateConfig($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function(date) {
+       return moment(date).format('DD-MM-YYYY');
+    };
+};
+
 angular
   .module('andruclient')
   .config(routeConfig);

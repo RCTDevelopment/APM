@@ -1,13 +1,15 @@
 angular.module('hoursanddowntime').service('hoursanddowntimeService', hoursanddowntimeService);
 
 function hoursanddowntimeService($http) {
-  this.getHoursWorked = function(equipment){
-    return $http.post("angular/api/getHoursWorked.php",{Equipment:parseInt(equipment)})
-  }
+  // this.getHoursWorked = function(equipment){
+  //   return $http.post("angular/api/getHoursWorked.php",{Equipment:parseInt(equipment)})
+  // }
+  //
+  // this.getDowntimes = function(equipment){
+  //   return  $http.post('angular/api/getDownTime.php',{Equipment:parseInt(equipment)})
+  // }
 
-  this.getDowntimes = function(equipment){
-    return  $http.post('angular/api/getDownTime.php',{Equipment:parseInt(equipment)})
-  }
+  
 
   this.getPlants = function(){
     return $http.post("angular/api/getPlants.php");

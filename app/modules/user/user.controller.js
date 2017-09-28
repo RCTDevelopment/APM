@@ -19,7 +19,8 @@ function UserController($state, Authentication, $sessionStorage, UserService, Di
     if (vm.newPassword === vm.confirmNewPassword) {
       var user = {
         username : vm.user.username,
-        password : vm.newPassword
+        password : vm.newPassword,
+        role : vm.currentUser.roles[0]
       }
       UserService.update(user).then(function success(response) {
         DialogService.showAlert(ev, 'Success', 'User updated successfuly.', 'Got it!');

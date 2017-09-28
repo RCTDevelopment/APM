@@ -6,14 +6,30 @@
          </md-card-title-text>
       </md-card-title>
       <md-card-content>
-        <div layout-gt-sm="row">
-          <md-radio-group>
-            <md-radio-button>Site</md-radio-button>
-            <md-radio-button>Type</md-radio-button>
-            <md-radio-button>Equipment</md-radio-button>
+        <div>
+            <md-radio-group flex=50 ng-model="selectedType" layout="row">
+              <md-radio-button value="plant">Plant</md-radio-button>
+              <md-radio-button value="type">Type</md-radio-button>
+              <md-radio-button value="equipment">Equipment</md-radio-button>
+            </md-radio-group>
+          <br>
+          <md-radio-group flex=50 ng-model="selectedTime" layout="row">
+            <md-radio-button value="day">Per Day</md-radio-button>
+            <md-radio-button value="month">Per Month</md-radio-button>
+            <md-radio-button value="year">Per Year</md-radio-button>
           </md-radio-group>
-        </div>
+          <br>
+          <div layout-gt-sm>
+            <span>From: </span><md-datepicker flex=50 ng-model="startDate" md-placeholder="Enter date"
+                md-max-date="endDate"></md-datepicker>
+            <div ng-show="selectedTime!='hour'">
+              <span>To: </span><md-datepicker flex=50 ng-model="endDate" md-placeholder="Enter date"
+                  md-min-date="startDate" md-max-date="maxDate"></md-datepicker>
+            </div>
+          </div>
 
+
+        </div>
         <div layout-gt-sm="row">
           <md-input-container class="md-block" flex-gt-sm>
             <label>Plant:</label>
@@ -23,15 +39,15 @@
               </md-option>
             </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm>
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='type' || selectedType=='equipment'">
             <label>Type:</label>
-            <md-select ng-model="selectedType" ng-change="getEquipment(selectedType,selectedPlant)">
+            <md-select ng-model="chosenType" ng-change="getEquipment(chosenType,selectedPlant)">
               <md-option ng-repeat="type in types" value="{{type.type}}">
                 {{type.type}}
               </md-option>
             </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm>
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='equipment'">
             <label>Equipment:</label>
             <md-select ng-model="selectedEquipment">
               <md-option ng-repeat="equipment in equipments" value="{{equipment.equipment}}">
@@ -39,7 +55,7 @@
               </md-option>
             </md-select>
           </md-input-container>
-          <md-button class="md-raised md-primary" ng-click="generate(selectedEquipment)" style="background-color:#0085CF">Generate</md-button>
+          <md-button class="md-raised md-primary" ng-click="generate($event)" style="background-color:#0085CF">Generate</md-button>
         </div>
       </md-card-content>
     </md-card-title>

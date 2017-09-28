@@ -125,12 +125,4 @@ function cubesperhourService($http) {
   this.getRunTimePerEquipmentPerYear = function(request){
     return $http.post("angular/api/getRunTimePerEquipmentPerYear.php",request);
   }
-  //
-  // this.getEquipments = function(selectedType,selectedPlant){
-  //   var toSend = {
-  //     type : selectedType,
-  //     plant : selectedPlant
-  //   }
-  //   return $http.post("angular/api/getEquipment.php", toSend);
-  // }
 }

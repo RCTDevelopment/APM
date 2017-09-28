@@ -14,6 +14,7 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
   $scope.startDate = new Date();
   $scope.endDate = new Date();
   $scope.maxDate = new Date();
+  $scope.selectedPlant = null;
   cubesperhourService.getPlants().then(function(response){
     $scope.plants = response.data;
   })
@@ -252,9 +253,10 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
         }
       }
       else if($scope.selectedType == 'equipment'){
+        $scope.data = [];
         if($scope.selectedTime == 'day'){
           var toSend = {
-            equipment : $scope.selectedEquipment,
+            equipment : $scope.selectedEquipments,
             type : $scope.chosenType,
             startDate : $scope.startDate,
             endDate : $scope.endDate
@@ -262,6 +264,11 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
           if($scope.chosenType=='Dozer'){
             cubesperhourService.getCubesPerEquipment(toSend).then(function(response){
               $scope.cubes = response.data;
+              for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
+              {
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+
+              }
             })
           }
           else{
@@ -271,10 +278,11 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                 $scope.runtime = response.data;
                 for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
                 {
-                  $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
-                  $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
-                  $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                    $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+                    $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
+                    $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+
                 }
               })
             })
@@ -282,7 +290,7 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
         }
         else if($scope.selectedTime == 'hour'){
           var toSend = {
-            equipment : $scope.selectedEquipment,
+            equipment : $scope.selectedEquipments,
             type : $scope.chosenType,
             startDate : $scope.startDate,
           }
@@ -291,7 +299,9 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               $scope.cubes = response.data;
               for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
               {
-                $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+
+                  $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+
               }
             })
           }
@@ -300,15 +310,17 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               $scope.cubes = response.data;
               for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
               {
-                $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
-                $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+
+                  $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
+                  $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+
               }
             })
           }
         }
         else if($scope.selectedTime == "month"){
           var toSend = {
-            equipment : $scope.selectedEquipment,
+            equipment : $scope.selectedEquipments,
             type : $scope.chosenType,
             startDate : $scope.startDate,
             endDate : $scope.endDate
@@ -316,6 +328,12 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
           if($scope.chosenType=='Dozer'){
             cubesperhourService.getCubesPerEquipmentPerMonth(toSend).then(function(response){
               $scope.cubes = response.data;
+              for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
+              {
+
+                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+
+              }
             })
           }
           else{
@@ -325,10 +343,12 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                 $scope.runtime = response.data;
                 for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
                 {
-                  $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
-                  $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
-                  $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+
+                    $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+                    $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
+                    $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+
                 }
               })
             })
@@ -336,7 +356,7 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
         }
         else if($scope.selectedTime =='year'){
           var toSend = {
-            equipment : $scope.selectedEquipment,
+            equipment : $scope.selectedEquipments,
             type : $scope.chosenType,
             startDate : $scope.startDate,
             endDate : $scope.endDate
@@ -344,6 +364,12 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
           if($scope.chosenType=='Dozer'){
             cubesperhourService.getCubesPerEquipmentPerYear(toSend).then(function(response){
               $scope.cubes = response.data;
+              for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
+              {
+
+                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+
+              }
             })
           }
           else{
@@ -353,10 +379,12 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                 $scope.runtime = response.data;
                 for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
                 {
-                  $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
-                  $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
-                  $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+
+                    $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+                    $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
+                    $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+
                 }
               })
             })
@@ -385,7 +413,7 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
   }
 
   $scope.getEquipment = function(selectedType,selectedPlant){
-    $scope.selectedEquipment = null;
+    $scope.equipments = [];
     cubesperhourService.getEquipments(selectedType,selectedPlant).then(function(response){
       $scope.equipments = response.data;
     })

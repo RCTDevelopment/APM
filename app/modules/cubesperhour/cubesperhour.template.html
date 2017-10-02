@@ -73,7 +73,7 @@
           <thead md-head>
             <tr md-row>
               <th md-column>{{selectedTime}}</th>
-              <th md-column>Equipment</th>
+              <th md-column ng-show="selectedType=='equipment'">Equipment</th>
               <th md-column>Cubes</th>
               <th md-column ng-hide="chosenType == 'Dozer'">Tons</th>
               <th md-column ng-show="selectedTime!='hour'">Run Time</th>
@@ -84,7 +84,7 @@
             <tr md-row ng-repeat="cube in cubes" >
                 <td md-cell ng-show="selectedTime=='hour'">{{cube.Time}}</td>
                 <td md-cell ng-show="selectedTime!='hour'">{{cube.Date}}</td>
-                <td md-cell >{{cube.Equipment}}</td>
+                <td md-cell ng-show="selectedType=='equipment'">{{cube.Equipment}}</td>
                 <td md-cell>{{cube.Cubes}}</td>
                 <td md-cell ng-hide="chosenType=='Dozer'">{{cube.Tons}}</td>
                 <td md-cell ng-show="selectedTime!='hour'">{{cube.total_runtime}}</td>

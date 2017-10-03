@@ -19,7 +19,7 @@
       $length = count($equipments);
       for ($i = 0; $i < $length; $i++) {
         if($i == 0){
-            $strToSearch = $equipments[$i];
+            $strToSearch = "Equipment =" . $equipments[$i];
         }
         else {
           $strToSearch = $strToSearch . " OR Equipment=" . $equipments[$i];
@@ -27,7 +27,7 @@
 
       }
 
-      $sql = "SELECT Date, Type,Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE Equipment=".$strToSearch." AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Equipment,Date ORDER BY Date DESC,Equipment";
+      $sql = "SELECT Date, Type,Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Equipment,Date ORDER BY Date DESC,Equipment";
 
       if($result = mysqli_query($connect,$sql))
       {
@@ -49,7 +49,7 @@
       $length = count($equipments);
       for ($i = 0; $i < $length; $i++) {
         if($i == 0){
-            $strToSearch = $equipments[$i];
+            $strToSearch = "Equipment = " . $equipments[$i];
         }
         else {
           $strToSearch = $strToSearch . " OR Equipment=" . $equipments[$i];
@@ -57,7 +57,7 @@
 
       }
 
-      $sql = "SELECT Date, Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE Equipment=".$strToSearch." AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Equipment,Date ORDER BY Date DESC,Equipment";
+      $sql = "SELECT Date, Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Equipment,Date ORDER BY Date DESC,Equipment";
 
       if($result = mysqli_query($connect,$sql))
       {

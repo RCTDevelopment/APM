@@ -1,9 +1,9 @@
 <?php
 // db credentials
 define('DB_HOST', 'localhost');
-define('DB_USER','andruco_service1');
-define('DB_PASS','52txzw3fgqsq');
-define('DB_NAME','andruco_online');
+define('DB_USER','root');
+define('DB_PASS','andru');
+define('DB_NAME','andru_dev');
 
 // Connect with the database.
 function connect()

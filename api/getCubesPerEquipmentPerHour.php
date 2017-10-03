@@ -22,7 +22,7 @@
       for ($i = 0; $i < $length; $i++)
       {
         if($i == 0){
-            $strToSearch = $strToSearch . $equipments[$i];
+            $strToSearch = "Excavator = " . $equipments[$i];
         }
         else {
           $strToSearch = $strToSearch . " OR Excavator=" . $equipments[$i];
@@ -30,7 +30,7 @@
 
       }
 
-      $sql = "SELECT Date,Time,Excavator,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Excavator=".$strToSearch." AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') group by Time ORDER BY Time,Excavator";
+      $sql = "SELECT Date,Time,Excavator,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') group by Time ORDER BY Time,Excavator";
 
       if($result = mysqli_query($connect,$sql))
       {
@@ -53,7 +53,7 @@
       $length = count($equipments);
       for ($i = 0; $i < $length; $i++) {
         if($i == 0){
-            $strToSearch = $equipments[$i];
+            $strToSearch = "Truck = ". $equipments[$i];
         }
         else {
           $strToSearch = $strToSearch .  " OR Truck=" . $equipments[i];
@@ -61,7 +61,7 @@
 
       }
 
-      $sql = "SELECT Date,Time,Truck,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Truck=".$strToSearch." AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') group by Truck,Time ORDER BY Time,Truck";
+      $sql = "SELECT Date,Time,Truck,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') group by Truck,Time ORDER BY Time,Truck";
 
       if($result = mysqli_query($connect,$sql))
       {
@@ -84,7 +84,7 @@
       $length = count($equipments);
       for ($i = 0; $i < $length; $i++) {
         if($i == 0){
-            $strToSearch = $equipments[$i];
+            $strToSearch = "Dozer = " . $equipments[$i];
         }
         else {
           $strToSearch = $strToSearch .  " OR Dozer=" . $equipments[$i];
@@ -92,7 +92,7 @@
 
       }
 
-      $dozerGet = "SELECT Date,Time,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime,Dozer FROM dbdc WHERE Dozer = ".$strToSearch." AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') group by Dozer,Time ORDER BY Time,Dozer";
+      $dozerGet = "SELECT Date,Time,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime,Dozer FROM dbdc WHERE (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') = DATE('".$startDate."') group by Dozer,Time ORDER BY Time,Dozer";
       if($result = mysqli_query($connect,$dozerGet))
       {
         $count = mysqli_num_rows($result);

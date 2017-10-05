@@ -1,0 +1,104 @@
+<md-content class="md-padding">
+   <md-card>
+      <md-card-title>
+         <md-toolbar class="md-table-toolbar md-default">
+            <div class="md-toolbar-tools">
+               <span>Asset Management Control Panel</span>
+               <div flex></div>
+               <md-button class="md-icon-button" ng-click="addAsset()">
+                  <md-tooltip md-direction="top">Add new asset</md-tooltip>
+                  <md-icon>add</md-icon>
+               </md-button>
+               <md-button class="md-icon-button" ng-click="loadStuff()">
+                  <md-tooltip md-direction="top">Refresh asset list</md-tooltip>
+                  <md-icon>refresh</md-icon>
+               </md-button>
+            </div>
+         </md-toolbar>
+      </md-card-title>
+      <md-card-content>
+         <md-table-container>
+            <table md-table md-row-select="true" multiple="false" ng-model="selected" md-progress="promise">
+               <thead md-head md-order="query.order">
+                  <tr md-row>
+                     <th md-column md-order-by="plantno"><span>Plant No</span></th>
+                     <th md-column md-order-by="model"><span>Make/Model</span></th>
+                     <th md-column md-order-by="description"><span>Description</span></th>
+                     <th md-column md-order-by="group"><span>Group</span></th>
+                     <th md-column md-order-by="serialno"><span>Serial No</span></th>
+                     <th md-column md-order-by="site"><span>Site</span></th>
+                     <th md-column md-order-by="purchaseDate"><span>Purchase Date</span></th>
+                     <th md-column md-order-by="repairs"><span>Major Repairs</span></th>
+                  </tr>
+               </thead>
+               <tbody md-body style="cursor:pointer;">
+                  <tr md-row md-select="item" md-auto-select="options.autoSelect" ng-repeat="item in assetTable.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                     <td md-cell>{{item.plantno}}</td>
+                     <td md-cell>{{item.model}}</td>
+                     <td md-cell>{{item.description}}</td>
+                     <td md-cell>{{item.group}}</td>
+                     <td md-cell>{{item.serialno}}</td>
+                     <td md-cell>{{item.site}}</td>
+                     <td md-cell>{{item.purchaseDate}}</td>
+                     <td md-cell>{{item.repairs}}</td>
+                  </tr>
+               </tbody>
+            </table>
+         </md-table-container>
+         <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{assetTable.count}}" md-page-select></md-table-pagination>
+         <div ng-if="options.rowSelection && selected.length">
+            <md-divider class="md-padding"></md-divider>
+            <div layout="row">
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Plant No</label>
+                  <md-icon class="material-icons" md-menu-align-target>perm_identity</md-icon>
+                  <input ng-model="selected[0].plantno" type="text" readonly>
+               </md-input-container>
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Make/Model</label>
+                  <md-icon class="material-icons" md-menu-align-target>build</md-icon>
+                  <input ng-model="selected[0].model" type="text">
+               </md-input-container>
+            </div>
+            <div layout="row">
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Description</label>
+                  <md-icon class="material-icons" md-menu-align-target>assignment</md-icon>
+                  <input ng-model="selected[0].description" type="text">
+               </md-input-container>
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Group</label>
+                  <md-icon class="material-icons" md-menu-align-target>extension</md-icon>
+                  <input ng-model="selected[0].group" type="text">
+               </md-input-container>
+            </div>
+            <div layout="row">
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Serial No</label>
+                  <md-icon class="material-icons" md-menu-align-target>fingerprint</md-icon>
+                  <input ng-model="selected[0].serialno" type="text">
+               </md-input-container>
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Site</label>
+                  <md-icon class="material-icons" md-menu-align-target>business</md-icon>
+                  <input ng-model="selected[0].site" type="text">
+               </md-input-container>
+            </div>
+            <div layout="row">
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Purchase Date</label>
+                  <md-icon class="material-icons" md-menu-align-target>file_download</md-icon>
+                  <input ng-model="selected[0].purchaseDate" type="text">
+               </md-input-container>
+               <md-input-container flex="50" class="md-icon-float md-block">
+                  <label>Current Major Repairs</label>
+                  <md-icon class="material-icons" md-menu-align-target>build</md-icon>
+                  <input ng-model="selected[0].repairs" type="text">
+               </md-input-container>
+            </div>
+            <md-button class="md-raised md-accent" style="background-color:#0085CF" ng-click="update($event)">Save / Update</md-button>
+            <md-button class="md-raised md-warn" ng-click="delete($event)">Delete asset</md-button>
+         </div>
+      </md-card-content>
+   </md-card>
+</md-content>

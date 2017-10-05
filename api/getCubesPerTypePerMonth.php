@@ -13,7 +13,7 @@
 
   // Get the data
   $plants = array();
-  $sql = "SELECT Month_Period,Plant,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Plant='".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Month_Period ORDER BY Date DESC";
+  $sql = "SELECT Month_Period,Plant,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where Plant='".$plant."' AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." group by Month_Period ORDER BY Month_Period DESC";
 
   if($result = mysqli_query($connect,$sql))
   {

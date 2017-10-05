@@ -6,7 +6,7 @@ menuConfig.$inject = ['menuService'];
 
 function menuConfig(menuService) {
   menuService.addMenuItem('topbar', {
-    title: 'Cubes per hour',
+    title: 'Cubes per runtime',
     state: 'cubesperhour',
     class: 'assignment',
     description: 'Calculate the total cubes devided by the total runtime',

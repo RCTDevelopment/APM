@@ -56,7 +56,7 @@
             $strToSearch = "Truck = ". $equipments[$i];
         }
         else {
-          $strToSearch = $strToSearch .  " OR Truck=" . $equipments[i];
+          $strToSearch = $strToSearch .  " OR Truck=" . $equipments[$i];
         }
 
       }

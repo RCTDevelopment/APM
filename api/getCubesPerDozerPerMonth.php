@@ -13,7 +13,7 @@
   $plants = array();
 
 
-  $dozerGet = "SELECT Month_Period,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime FROM dbdc WHERE Plant = '".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Month_Period ORDER BY Date DESC";
+  $dozerGet = "SELECT Month_Period,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime FROM dbdc WHERE Plant = '".$plant."' AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." group by Month_Period ORDER BY Month_Period DESC";
   if($result = mysqli_query($connect,$dozerGet))
   {
     $count = mysqli_num_rows($result);

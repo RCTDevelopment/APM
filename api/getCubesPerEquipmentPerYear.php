@@ -14,21 +14,19 @@
   // Get the data
   $plants = array();
     if($type == 'Excavator'){
-
-      if($type == 'Excavator'){
-        $strToSearch = "";
-        $length = count($equipments);
-        for ($i = 0; $i < $length; $i++)
-        {
-          if($i == 0){
-              $strToSearch = "Excavator = " . $equipments[$i];
-          }
-          else {
-            $strToSearch = $strToSearch . " OR Excavator=" . $equipments[$i];
-          }
+      $strToSearch = "";
+      $length = count($equipments);
+      for ($i = 0; $i < $length; $i++)
+      {
+        if($i == 0){
+            $strToSearch = "Excavator = " . $equipments[$i];
         }
+        else {
+          $strToSearch = $strToSearch . " OR Excavator=" . $equipments[$i];
+        }
+      }
 
-      $sql = "SELECT Year_Period,Excavator,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Excavator,Year_Period ORDER BY Date DESC,Excavator";
+      $sql = "SELECT Year_Period,Excavator,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." group by Excavator,Year_Period ORDER BY Year_Period DESC,Excavator";
 
       if($result = mysqli_query($connect,$sql))
       {
@@ -50,14 +48,14 @@
       $length = count($equipments);
       for ($i = 0; $i < $length; $i++) {
         if($i == 0){
-            $strToSearch = "Truck = "  .$equipments[$i];
+            $strToSearch = "Truck = "  . $equipments[$i];
         }
         else {
-          $strToSearch = $strToSearch .  " OR Truck=" . $equipments[i];
+          $strToSearch = $strToSearch .  " OR Truck=" . $equipments[$i];
         }
       }
 
-      $sql = "SELECT Year_Period,Truck,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Truck,Year_Period ORDER BY Date DESC,Truck";
+      $sql = "SELECT Year_Period,Truck,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." group by Truck,Year_Period ORDER BY Year_Period DESC,Truck";
 
       if($result = mysqli_query($connect,$sql))
       {
@@ -67,8 +65,8 @@
         while($row = mysqli_fetch_assoc($result))
         {
             $plants[$cr]['Cubes']    = $row['totalcubes'];
-            $plants[$cr]['Date']    = $row['Year_Period'];
             $plants[$cr]['Equipment']    = $row['Truck'];
+            $plants[$cr]['Date']    = $row['Year_Period'];
             $plants[$cr]['Tons'] =$row['totalTons'];
             $cr++;
         }
@@ -80,14 +78,15 @@
       $length = count($equipments);
       for ($i = 0; $i < $length; $i++) {
         if($i == 0){
-            $strToSearch =  "Dozer = " . $equipments[$i];
+            $strToSearch = "Dozer=". $equipments[$i];
         }
         else {
           $strToSearch = $strToSearch .  " OR Dozer=" . $equipments[$i];
         }
       }
 
-      $dozerGet = "SELECT Year_Period,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime,Dozer FROM dbdc WHERE (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Dozer,Year_Period ORDER BY Date DESC,Dozer";
+
+      $dozerGet = "SELECT Year_Period,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime,Dozer FROM dbdc WHERE (".$strToSearch.") AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." group by Dozer,Year_Period ORDER BY Year_Period DESC,Dozer";
       if($result = mysqli_query($connect,$dozerGet))
       {
         $count = mysqli_num_rows($result);
@@ -103,6 +102,7 @@
         }
       }
     }
+
 
 
 

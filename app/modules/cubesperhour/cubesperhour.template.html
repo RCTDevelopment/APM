@@ -2,7 +2,7 @@
   <md-card>
       <md-card-title>
          <md-card-title-text>
-            <span class="md-headline">Cubes per hour</span>
+            <span class="md-headline">Cubes per runtime</span>
          </md-card-title-text>
       </md-card-title>
       <md-card-content>
@@ -20,13 +20,67 @@
             <md-radio-button value="year">Per Year</md-radio-button>
           </md-radio-group>
           <br>
-          <div layout-gt-sm>
-            <span>From: </span><md-datepicker flex=50 ng-model="startDate" md-placeholder="Enter date"
-                md-max-date="endDate"></md-datepicker>
+          <div layout-gt-sm ng-show="selectedTime=='day' || selectedTime=='hour'">
+            <md-input-container class="md-block">
+              <label>From: </label><md-datepicker ng-model="startDate" md-placeholder="Enter date"
+                  md-max-date="endDate"></md-datepicker>
+            </md-input-container>
             <div ng-show="selectedTime!='hour'">
-              <span>To: </span><md-datepicker flex=50 ng-model="endDate" md-placeholder="Enter date"
-                  md-min-date="startDate" md-max-date="maxDate"></md-datepicker>
+              <md-input-container>
+                <label>To: </label><md-datepicker ng-model="endDate" md-placeholder="Enter date"
+                    md-min-date="startDate" md-max-date="maxDate"></md-datepicker>
+              </md-input-container>
             </div>
+          </div>
+          <div layout-gt-sm ng-show="selectedTime=='month'">
+            <md-input-container class="md-block">
+              <label>From:</label>
+              <md-select ng-model="fromMonth" >
+                <md-option value=1>1</md-option>
+                <md-option value=2>2</md-option>
+                <md-option value=3>3</md-option>
+                <md-option value=4>4</md-option>
+                <md-option value=5>5</md-option>
+                <md-option value=6>6</md-option>
+                <md-option value=7>7</md-option>
+                <md-option value=8>8</md-option>
+                <md-option value=9>9</md-option>
+                <md-option value=10>10</md-option>
+                <md-option value=11>11</md-option>
+                <md-option value=12>12</md-option>
+              </md-select>
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>To:</label>
+              <md-select ng-model="toMonth" >
+                <md-option value=1>1</md-option>
+                <md-option value=2>2</md-option>
+                <md-option value=3>3</md-option>
+                <md-option value=4>4</md-option>
+                <md-option value=5>5</md-option>
+                <md-option value=6>6</md-option>
+                <md-option value=7>7</md-option>
+                <md-option value=8>8</md-option>
+                <md-option value=9>9</md-option>
+                <md-option value=10>10</md-option>
+                <md-option value=11>11</md-option>
+                <md-option value=12>12</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+          <div layout-gt-sm ng-show="selectedTime=='year'">
+            <md-input-container class="md-block">
+              <label>From:</label>
+              <md-select ng-model="fromYear">
+                <md-option value=2017>2017</md-option>
+              </md-select>
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>To:</label>
+              <md-select ng-model="toYear" >
+                <md-option value=2017>2017</md-option>
+              </md-select>
+            </md-input-container>
           </div>
 
 
@@ -68,6 +122,8 @@
          </md-card-title-text>
       </md-card-title>
       <md-card-content>
+        <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" colour="colours"></canvas>
+
         <md-table-container>
         <table md-table>
           <thead md-head>

@@ -16,5 +16,6 @@ angular.module('andruclient', [
   'user',
   'userManagement',
   'hoursanddowntime',
-  'cubesperhour'
+  'cubesperhour',
+  'assetregister'
 ]);

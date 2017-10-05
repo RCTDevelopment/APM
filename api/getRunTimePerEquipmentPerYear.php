@@ -27,7 +27,7 @@
         }
 
       }
-      $sql = "SELECT Year_Period, Type,Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Equipment,Year_Period ORDER BY Date DESC,Equipment";
+      $sql = "SELECT Year_Period, Type,Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE (".$strToSearch.") AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." GROUP BY Equipment,Year_Period ORDER BY Year_Period DESC,Equipment";
 
       if($result = mysqli_query($connect,$sql))
       {
@@ -55,7 +55,7 @@
         }
       }
 
-      $sql = "SELECT Year_Period, Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Equipment,Year_Period ORDER BY Date DESC,Equipment";
+      $sql = "SELECT Year_Period, Equipment, SUM(Total_Runtime) AS Total FROM dbhm WHERE (".$strToSearch.") AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." GROUP BY Equipment,Year_Period ORDER BY Date DESC,Equipment";
 
       if($result = mysqli_query($connect,$sql))
       {

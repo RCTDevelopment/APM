@@ -26,7 +26,7 @@
         }
       }
 
-      $sql = "SELECT Month_Period,Excavator,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Excavator,Month_Period ORDER BY Date DESC,Excavator";
+      $sql = "SELECT Month_Period,Excavator,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." group by Excavator,Month_Period ORDER BY Month_Period DESC,Excavator";
 
       if($result = mysqli_query($connect,$sql))
       {
@@ -51,11 +51,11 @@
             $strToSearch = "Truck = "  . $equipments[$i];
         }
         else {
-          $strToSearch = $strToSearch .  " OR Truck=" . $equipments[i];
+          $strToSearch = $strToSearch .  " OR Truck=" . $equipments[$i];
         }
       }
 
-      $sql = "SELECT Month_Period,Truck,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Truck,Month_Period ORDER BY Date DESC,Truck";
+      $sql = "SELECT Month_Period,Truck,SUM(Cubes) AS totalcubes,SUM(Estimated_Tons) AS totalTons FROM dblc where (".$strToSearch.") AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." group by Truck,Month_Period ORDER BY Month_Period DESC,Truck";
 
       if($result = mysqli_query($connect,$sql))
       {
@@ -86,7 +86,7 @@
       }
 
 
-      $dozerGet = "SELECT Month_Period,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime,Dozer FROM dbdc WHERE (".$strToSearch.") AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') group by Dozer,Month_Period ORDER BY Date DESC,Dozer";
+      $dozerGet = "SELECT Month_Period,SUM(Cubes) AS TotalCubes,SUM(Dozing_Time) AS TotalTime,Dozer FROM dbdc WHERE (".$strToSearch.") AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." group by Dozer,Month_Period ORDER BY Month_Period DESC,Dozer";
       if($result = mysqli_query($connect,$dozerGet))
       {
         $count = mysqli_num_rows($result);

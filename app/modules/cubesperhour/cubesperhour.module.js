@@ -15,7 +15,7 @@ function routeConfig($stateProvider) {
     controller: 'cubesperhourController',
     controllerAs: 'vm',
     data: {
-      pageTitle: 'Cubes per hour',
+      pageTitle: 'Cubes per runtime',
       pageDescription: 'Calculate the total cubes devided by total runtime',
       roles: ['ADMIN', 'MANAGER','DIRECTOR']
     }

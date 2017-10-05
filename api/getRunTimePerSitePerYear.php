@@ -25,7 +25,7 @@
 
   // Get the data
   $plants = array();
-  $sql = "SELECT Year_Period, Plant, SUM(Total_Runtime) AS Total FROM dbhm WHERE (Type='Excavator' ".$stringToAppend .") AND Plant = '".$plant."' AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Year_Period ORDER BY Date DESC";
+  $sql = "SELECT Year_Period, Plant, SUM(Total_Runtime) AS Total FROM dbhm WHERE (Type='Excavator' ".$stringToAppend .") AND Plant = '".$plant."' AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." GROUP BY Year_Period ORDER BY Date DESC";
 
   if($result = mysqli_query($connect,$sql))
   {

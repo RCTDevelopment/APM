@@ -26,14 +26,16 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
     else if (!$scope.selectedTime){
       DialogService.showAlert(ev, 'Times', 'Please select a time scale', 'Re enter');
     }
-    else if($scope.endDate.getTime() === $scope.startDate.getTime()){
-        DialogService.showAlert(ev, 'Dates', 'Start date and end date is the same', 'Re enter');
-    }
     else if ($scope.selectedType == "plant" && !$scope.selectedPlant)
     {
         DialogService.showAlert(ev, 'Plant', 'Please selected a plant', 'Re enter');
     }
     else{
+      $scope.hours =  [];
+      $scope.series = ['Cubes per ' + $scope.selectedTime];
+      $scope.labels = [];
+      $scope.data = [[]];
+      Chart.defaults.global.colors = [ '#0085CF', '#ff6347', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
       if($scope.selectedType == "plant"){
         if($scope.selectedTime == "day"){
           var toSend = {
@@ -50,7 +52,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                   $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                   $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                   $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  if($scope.cubes[i].total_runtime == 0){
+                    $scope.cubes[i].cubes_per_runtime = 0;
+                  }
+                  else {
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  }
+                  $scope.labels.push($scope.cubes[i].Date)
+                  $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
                 }
 
               })
@@ -67,14 +76,16 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               {
                 $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                 $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+                $scope.labels.push($scope.cubes[i].Time)
+                $scope.data[0].push($scope.cubes[i].Cubes);
               }
           })
         }
         else if($scope.selectedTime == "month"){
           var toSend = {
             plant : $scope.selectedPlant,
-            startDate : $scope.startDate,
-            endDate : $scope.endDate
+            startDate : $scope.fromMonth,
+            endDate : $scope.toMonth
           };
           cubesperhourService.getCubesPerSitePerMonth(toSend).then(function(response){
               $scope.cubes = response.data;
@@ -85,7 +96,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                   $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                   $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                   $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  if($scope.cubes[i].total_runtime == 0){
+                    $scope.cubes[i].cubes_per_runtime = 0;
+                  }
+                  else {
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  }
+                  $scope.labels.push($scope.cubes[i].Date)
+                  $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
                 }
 
               })
@@ -94,8 +112,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
         else if($scope.selectedTime == 'year'){
           var toSend = {
             plant : $scope.selectedPlant,
-            startDate : $scope.startDate,
-            endDate : $scope.endDate
+            startDate : $scope.fromYear,
+            endDate : $scope.toYear
           };
           cubesperhourService.getCubesPerSitePerYear(toSend).then(function(response){
               $scope.cubes = response.data;
@@ -106,7 +124,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                   $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                   $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                   $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  if($scope.cubes[i].total_runtime == 0){
+                    $scope.cubes[i].cubes_per_runtime = 0;
+                  }
+                  else {
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  }
+                  $scope.labels.push($scope.cubes[i].Date)
+                  $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
                 }
 
               })
@@ -130,7 +155,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
 
                 $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
                 $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
-                $scope.cubes[i].total_runtime = parseFloat($scope.cubes[i].total_runtime).toFixed(0);
+                if($scope.cubes[i].total_runtime == 0){
+                  $scope.cubes[i].cubes_per_runtime = 0;
+                }
+                else {
+                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                }
+                $scope.labels.push($scope.cubes[i].Date)
+                $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
               }
             })
           }
@@ -144,7 +176,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                   $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                   $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                   $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  if($scope.cubes[i].total_runtime == 0){
+                    $scope.cubes[i].cubes_per_runtime = 0;
+                  }
+                  else {
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  }
+                  $scope.labels.push($scope.cubes[i].Date)
+                  $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
                 }
 
               })
@@ -166,7 +205,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
 
                 $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
                 $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
-                $scope.cubes[i].total_runtime = parseFloat($scope.cubes[i].total_runtime).toFixed(0);
+                if($scope.cubes[i].total_runtime == 0){
+                  $scope.cubes[i].cubes_per_runtime = 0;
+                }
+                else {
+                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                }
+                $scope.labels.push($scope.cubes[i].Time)
+                $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
               }
             })
           }
@@ -177,6 +223,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               {
                 $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                 $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+                $scope.labels.push($scope.cubes[i].Time)
+                $scope.data[0].push($scope.cubes[i].Cubes);
               }
             })
           }
@@ -184,8 +232,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
         else if ($scope.selectedTime == "month"){
           var toSend = {
             plant : $scope.selectedPlant,
-            startDate : $scope.startDate,
-            endDate : $scope.endDate,
+            startDate : $scope.fromMonth,
+            endDate : $scope.toMonth,
             type : $scope.chosenType
           };
 
@@ -196,7 +244,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               {
                 $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
                 $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
-                $scope.cubes[i].total_runtime = parseFloat($scope.cubes[i].total_runtime).toFixed(0);
+                if($scope.cubes[i].total_runtime == 0){
+                  $scope.cubes[i].cubes_per_runtime = 0;
+                }
+                else {
+                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                }
+                $scope.labels.push($scope.cubes[i].Date)
+                $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
               }
             })
           }
@@ -210,7 +265,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                   $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                   $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                   $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  if($scope.cubes[i].total_runtime == 0){
+                    $scope.cubes[i].cubes_per_runtime = 0;
+                  }
+                  else {
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  }
+                  $scope.labels.push($scope.cubes[i].Date)
+                  $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
                 }
               })
             })
@@ -219,8 +281,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
         else if($scope.selectedTime == "year"){
           var toSend = {
             plant : $scope.selectedPlant,
-            startDate : $scope.startDate,
-            endDate : $scope.endDate,
+            startDate : $scope.fromYear,
+            endDate : $scope.toYear,
             type : $scope.chosenType
           };
 
@@ -231,7 +293,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               {
                 $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
                 $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
-                $scope.cubes[i].total_runtime = parseFloat($scope.cubes[i].total_runtime).toFixed(0);
+                if($scope.cubes[i].total_runtime == 0){
+                  $scope.cubes[i].cubes_per_runtime = 0;
+                }
+                else {
+                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                }
+                $scope.labels.push($scope.cubes[i].Date)
+                $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
               }
             })
           }
@@ -245,7 +314,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                   $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                   $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                   $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  if($scope.cubes[i].total_runtime == 0){
+                    $scope.cubes[i].cubes_per_runtime = 0;
+                  }
+                  else {
+                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                  }
+                  $scope.labels.push($scope.cubes[i].Date)
+                  $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
                 }
               })
             })
@@ -266,7 +342,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               $scope.cubes = response.data;
               for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
               {
-                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                if($scope.cubes[i].total_runtime == 0){
+                  $scope.cubes[i].cubes_per_runtime = 0;
+                }
+                else {
+                  $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                }
+                $scope.labels.push($scope.cubes[i].Date)
+                $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
 
               }
             })
@@ -281,7 +364,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                     $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                     $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                     $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                    if($scope.cubes[i].total_runtime == 0){
+                      $scope.cubes[i].cubes_per_runtime = 0;
+                    }
+                    else {
+                      $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                    }
+                    $scope.labels.push($scope.cubes[i].Date)
+                    $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
 
                 }
               })
@@ -301,6 +391,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               {
 
                   $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+                  $scope.labels.push($scope.cubes[i].Time)
+                  $scope.data[0].push($scope.cubes[i].Cubes);
 
               }
             })
@@ -313,6 +405,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
 
                   $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                   $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
+                  $scope.labels.push($scope.cubes[i].Time)
+                  $scope.data[0].push($scope.cubes[i].Cubes);
 
               }
             })
@@ -322,8 +416,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
           var toSend = {
             equipment : $scope.selectedEquipments,
             type : $scope.chosenType,
-            startDate : $scope.startDate,
-            endDate : $scope.endDate
+            startDate : $scope.fromMonth,
+            endDate : $scope.toMonth
           }
           if($scope.chosenType=='Dozer'){
             cubesperhourService.getCubesPerEquipmentPerMonth(toSend).then(function(response){
@@ -331,7 +425,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
               {
 
+                if($scope.cubes[i].total_runtime == 0){
+                  $scope.cubes[i].cubes_per_runtime = 0;
+                }
+                else {
                   $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                }
+                $scope.labels.push($scope.cubes[i].Date)
+                $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
 
               }
             })
@@ -347,7 +448,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                     $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                     $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                     $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                    if($scope.cubes[i].total_runtime == 0){
+                      $scope.cubes[i].cubes_per_runtime = 0;
+                    }
+                    else {
+                      $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                    }
+                    $scope.labels.push($scope.cubes[i].Date)
+                    $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
 
                 }
               })
@@ -358,8 +466,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
           var toSend = {
             equipment : $scope.selectedEquipments,
             type : $scope.chosenType,
-            startDate : $scope.startDate,
-            endDate : $scope.endDate
+            startDate : $scope.fromYear,
+            endDate : $scope.toYear
           }
           if($scope.chosenType=='Dozer'){
             cubesperhourService.getCubesPerEquipmentPerYear(toSend).then(function(response){
@@ -367,7 +475,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
               for(var i=1; i < Object.keys($scope.cubes).length+1; i++)
               {
 
+                if($scope.cubes[i].total_runtime == 0){
+                  $scope.cubes[i].cubes_per_runtime = 0;
+                }
+                else {
                   $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                }
+                $scope.labels.push($scope.cubes[i].Date)
+                $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
 
               }
             })
@@ -383,7 +498,14 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                     $scope.cubes[i].Cubes = parseFloat($scope.cubes[i].Cubes).toFixed(0);
                     $scope.cubes[i].Tons = parseFloat($scope.cubes[i].Tons).toFixed(0);
                     $scope.cubes[i].total_runtime = $scope.runtime[i].Total_Runtime;
-                    $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                    if($scope.cubes[i].total_runtime == 0){
+                      $scope.cubes[i].cubes_per_runtime = 0;
+                    }
+                    else {
+                      $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
+                    }
+                    $scope.labels.push($scope.cubes[i].Date)
+                    $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
 
                 }
               })

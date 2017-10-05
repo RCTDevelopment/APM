@@ -1,0 +1,73 @@
+<md-dialog md-theme="dark" aria-label="New Asset">
+   <form ng-cloak>
+      <md-toolbar>
+         <div class="md-toolbar-tools" style="background-color:#0085CF">
+            <h2>New Asset</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+               <md-icon>clear</md-icon>
+            </md-button>
+         </div>
+      </md-toolbar>
+
+      <md-dialog-content>
+         <div class="md-dialog-content">
+
+           <div layout="row">
+              <md-input-container flex="50" class="md-icon-float md-block">
+                 <label>Plant No</label>
+                 <md-icon class="material-icons" md-menu-align-target>perm_identity</md-icon>
+                 <input ng-model="asset.plantno" type="text">
+              </md-input-container>
+              <md-input-container flex="50" class="md-icon-float md-block">
+                 <label>Make/Model</label>
+                 <md-icon class="material-icons" md-menu-align-target>build</md-icon>
+                 <input ng-model="asset.model" type="text">
+              </md-input-container>
+           </div>
+           <div layout="row">
+              <md-input-container flex="50" class="md-icon-float md-block">
+                 <label>Description</label>
+                 <md-icon class="material-icons" md-menu-align-target>assignment</md-icon>
+                 <input ng-model="asset.description" type="text">
+              </md-input-container>
+              <md-input-container flex="50" class="md-icon-float md-block">
+                 <label>Group</label>
+                 <md-icon class="material-icons" md-menu-align-target>extension</md-icon>
+                 <input ng-model="asset.group" type="text">
+              </md-input-container>
+           </div>
+           <div layout="row">
+              <md-input-container flex="50" class="md-icon-float md-block">
+                 <label>Serial No</label>
+                 <md-icon class="material-icons" md-menu-align-target>fingerprint</md-icon>
+                 <input ng-model="asset.serialno" type="text">
+              </md-input-container>
+              <md-input-container flex="50" class="md-icon-float md-block">
+                 <label>Site</label>
+                 <md-icon class="material-icons" md-menu-align-target>business</md-icon>
+                 <input ng-model="asset.site" type="text">
+              </md-input-container>
+           </div>
+           <div layout="row">
+              <md-input-container flex="50" class="md-icon-float md-block">
+                 <label>Purchase Date</label>
+                 <md-icon class="material-icons" md-menu-align-target>file_download</md-icon>
+                 <input ng-model="asset.purchaseDate" type="text">
+              </md-input-container>
+              <md-input-container flex="50" class="md-icon-float md-block">
+                 <label>Current Major Repairs</label>
+                 <md-icon class="material-icons" md-menu-align-target>build</md-icon>
+                 <input ng-model="asset.repairs" type="text">
+              </md-input-container>
+           </div>
+      </md-dialog-content>
+
+      <md-dialog-actions layout="row">
+         <span flex></span>
+         <md-button ng-click="answer('useful')">
+            Add
+         </md-button>
+      </md-dialog-actions>
+   </form>
+</md-dialog>

@@ -300,7 +300,7 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                   $scope.cubes[i].cubes_per_runtime = ($scope.cubes[i].Cubes/$scope.cubes[i].total_runtime).toFixed(0);
                 }
                 $scope.labels.push($scope.cubes[i].Date)
-                $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
+                // $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
               }
             })
           }
@@ -329,7 +329,6 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
         }
       }
       else if($scope.selectedType == 'equipment'){
-        $scope.data = [];
         if($scope.selectedTime == 'day'){
           var toSend = {
             equipment : $scope.selectedEquipments,
@@ -372,8 +371,8 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                     }
                     $scope.labels.push($scope.cubes[i].Date)
                     $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
-
                 }
+
               })
             })
           }
@@ -483,7 +482,6 @@ function cubesperhourController($state, principal,$scope,cubesperhourService,Dia
                 }
                 $scope.labels.push($scope.cubes[i].Date)
                 $scope.data[0].push($scope.cubes[i].cubes_per_runtime);
-
               }
             })
           }

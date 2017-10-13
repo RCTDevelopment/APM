@@ -15,6 +15,7 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
   $scope.selectedType = {};
   $scope.equipments = [];
   $scope.selectedEquipment = {};
+  $scope.selectedModel = null;
   $scope.downtimeArr = {data:[]};
   $scope.selectedPlant = null;
   $scope.selectedFrom = null;
@@ -55,7 +56,7 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
         $scope.selectedFrom = $scope.fromYear;
         $scope.selectedTo = $scope.toYear;
       }
-      vm.hService.getHoursAndDowntime($scope.selectedType,$scope.selectedTime,$scope.selectedFrom,$scope.selectedTo,$scope.selectedPlant,$scope.chosenType,$scope.selectedEquipment).then(function(response){
+      vm.hService.getHoursAndDowntime($scope.selectedType,$scope.selectedTime,$scope.selectedFrom,$scope.selectedTo,$scope.selectedPlant,$scope.chosenType,$scope.selectedEquipment,$scope.selectedModel).then(function(response){
         $scope.hours = response.data;
         for(var i=1; i < Object.keys($scope.hours).length+1; i++)
         {

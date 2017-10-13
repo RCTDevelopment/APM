@@ -8,7 +8,7 @@ function hoursanddowntimeService($http) {
   // this.getDowntimes = function(equipment){
   //   return  $http.post('angular/api/getDownTime.php',{Equipment:parseInt(equipment)})
   // }
-  this.getHoursAndDowntime = function(type,time,start,end,plant,chosenType,equipments){
+  this.getHoursAndDowntime = function(type,time,start,end,plant,chosenType,equipments,model){
     var typenr = 0;
     var timenr = 0;
     switch (type) {
@@ -20,6 +20,9 @@ function hoursanddowntimeService($http) {
         break;
       case "equipment":
         typenr = 3;
+        break;
+      case 'model':
+        typenr = 4;
         break;
       default:
         return "mistake";
@@ -44,7 +47,8 @@ function hoursanddowntimeService($http) {
       'endDate' : end,
       'plant' : plant,
       'type' : chosenType,
-      'equipments' : equipments
+      'equipments' : equipments,
+      'model' : model
     }
     return $http.post("angular/api/hoursAndDowntime.php",request);
   }

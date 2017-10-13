@@ -11,7 +11,7 @@ function assetregisterController($state, principal,$scope,DialogService,$mdDialo
   var vm = this;
 
   $scope.selected = [];
-  $scope.limitOptions = [5, 10, 15];
+  $scope.limitOptions = [30,45,50];
 
   $scope.options = {
     rowSelection: true,
@@ -26,7 +26,7 @@ function assetregisterController($state, principal,$scope,DialogService,$mdDialo
 
   $scope.query = {
     order: 'plantno',
-    limit: 5,
+    limit: 30,
     page: 1
   };
 

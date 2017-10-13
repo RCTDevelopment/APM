@@ -383,6 +383,59 @@ else if($typenr == 3){
     }
   }
 }
+else if ($typenr == 4){
+  // $plant = $data->plant;
+  // $sql = "SELECT DISTINCT(Equipment) from dbhm where plant='".$plant."'";
+  // $equipments = array();
+  // $strToSearch = "";
+  // if($result = mysqli_query($connect,$sql)){
+  //   $cr = 1;
+  //   while($row = mysqli_fetch_assoc($result)){
+  //     $equipments[$cr]['Equipment'] = $row['Equipment'];
+  //     if($cr == 1){
+  //         $strToSearch = $strToSearch . "plantno =" . $row['Equipment'];
+  //     }
+  //     else{
+  //         $strToSearch = $strToSearch . " OR plantno=" . $row['Equipment'];
+  //     }
+  //
+  //     $cr++;
+  //   }
+  // }
+  //
+  // $sql = "SELECT DISTINCT(model) FROM asset where ". $strToSearch;
+  //
+  //
+  // if($result = mysqli_query($connect,$sql)){
+  //   $cr = 1;
+  //   while($row = mysqli_fetch_assoc($result)){
+  //     $hours[$cr]['model'] = $row['model'];
+  //     $cr++;
+  //   }
+  // }
+
+
+  // $model = $date->model;
+  //
+  // $sql = "SELECT plantno FROM asset where model='".$model."'";
+  //
+  // if($timenr == 1){
+  //
+  // }
+  // else if ($timenr == 2){
+  //
+  // }
+  // else if($timenr == 3){
+  //
+  // }
+  // if($result = mysqli_query($connect,$sql)){
+  //   $cr = 1;
+  //   while($row = mysqli_fetch_assoc($result)){
+  //     $hours[$cr]['plantno'] = $row['plantno'];
+  //     $cr++;
+  //   }
+  // }
+}
 
 $json = json_encode($hours);
 echo $json;

@@ -8,8 +8,9 @@
       <md-card-content>
         <div>
             <md-radio-group flex=50 ng-model="selectedType" layout="row">
-              <md-radio-button value="plant">Plant</md-radio-button>
+              <md-radio-button value="plant">Site</md-radio-button>
               <md-radio-button value="type">Type</md-radio-button>
+              <md-radio-button value="model">Model</md-radio-button>
               <md-radio-button value="equipment">Equipment</md-radio-button>
             </md-radio-group>
           <br>
@@ -85,8 +86,16 @@
 
         </div>
         <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='model'">
+            <label>Model:</label>
+            <md-select ng-model="selectedModel">
+              <md-option ng-repeat="model in models" value="{{model.model}}">
+                {{model.model}}
+              </md-option>
+            </md-select>
+          </md-input-container>
           <md-input-container class="md-block" flex-gt-sm>
-            <label>Plant:</label>
+            <label>Site:</label>
             <md-select ng-model="selectedPlant" ng-change="getTypes(selectedPlant)">
               <md-option ng-repeat="plant in plants" value="{{plant.Plant}}">
                 {{plant.Plant}}

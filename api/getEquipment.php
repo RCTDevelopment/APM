@@ -7,6 +7,7 @@
   $request_body = file_get_contents('php://input');
   $data = json_decode($request_body);
   $type = $data->type;
+  $model = $data->model;
   $plant = $data->plant;
 
 
@@ -14,7 +15,7 @@
   $equipments = array();
   if($type != 'Dozer'){
     if($type == 'Truck'){
-      $sql = "SELECT DISTINCT(Equipment) FROM dbhm where Plant= '". $plant."' AND (Type= 'Truck' OR Type='Trucks' OR 'TRUCKS' OR 'TRUCK')";
+      $sql = "SELECT DISTINCT(Equipment) FROM dbhm where Plant= '". $plant."' AND (Type= 'Truck' OR Type='Trucks' OR 'TRUCKS' OR 'TRUCK') AND Replace(Equipment,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')";
       if($result = mysqli_query($connect,$sql))
       {
         $count = mysqli_num_rows($result);
@@ -28,7 +29,7 @@
       }
     }
     else {
-      $sql = "SELECT DISTINCT(Equipment) FROM dbhm where Plant= '". $plant."' AND Type= '" . $type . "'";
+      $sql = "SELECT DISTINCT(Equipment) FROM dbhm where Plant= '". $plant."' AND Type= '" . $type . "' AND Replace(Equipment,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')";
       if($result = mysqli_query($connect,$sql))
       {
         $count = mysqli_num_rows($result);
@@ -44,7 +45,7 @@
 
   }
   else {
-    $sql = "SELECT DISTINCT(Dozer) FROM dbdc WHERE Plant = '".$plant."'";
+    $sql = "SELECT DISTINCT(Dozer) FROM dbdc WHERE Plant = '".$plant."' AND Replace(Dozer,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')";
     if($result = mysqli_query($connect,$sql))
     {
       $count = mysqli_num_rows($result);

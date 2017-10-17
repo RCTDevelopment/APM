@@ -315,7 +315,7 @@ else if($typenr == 3){
       }
     }
 
-    $sql = "SELECT Month_period,SUM(Delay) AS totalDelay FROM dbdt where (". $strToSearch.") AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." GROUP BY Equipment,Month_Period ORDER BY Month_Period DESC";
+    $sql = "SELECT Month_Period,SUM(Delay) AS totalDelay FROM dbdt where (". $strToSearch.") AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." GROUP BY Equipment,Month_Period ORDER BY Month_Period DESC";
 
     if($result = mysqli_query($connect,$sql))
     {
@@ -345,7 +345,6 @@ else if($typenr == 3){
       else {
         $strToSearch = $strToSearch . " OR Equipment=" . $equipments[$i];
       }
-
     }
 
     $sql = "SELECT Year_Period,Equipment,SUM(Total_Runtime) AS tot_run FROM dbhm where (". $strToSearch.")  AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." GROUP BY Equipment,Year_Period ORDER BY Year_Period DESC";
@@ -384,57 +383,112 @@ else if($typenr == 3){
   }
 }
 else if ($typenr == 4){
-  // $plant = $data->plant;
-  // $sql = "SELECT DISTINCT(Equipment) from dbhm where plant='".$plant."'";
-  // $equipments = array();
-  // $strToSearch = "";
-  // if($result = mysqli_query($connect,$sql)){
-  //   $cr = 1;
-  //   while($row = mysqli_fetch_assoc($result)){
-  //     $equipments[$cr]['Equipment'] = $row['Equipment'];
-  //     if($cr == 1){
-  //         $strToSearch = $strToSearch . "plantno =" . $row['Equipment'];
-  //     }
-  //     else{
-  //         $strToSearch = $strToSearch . " OR plantno=" . $row['Equipment'];
-  //     }
-  //
-  //     $cr++;
-  //   }
-  // }
-  //
-  // $sql = "SELECT DISTINCT(model) FROM asset where ". $strToSearch;
-  //
-  //
-  // if($result = mysqli_query($connect,$sql)){
-  //   $cr = 1;
-  //   while($row = mysqli_fetch_assoc($result)){
-  //     $hours[$cr]['model'] = $row['model'];
-  //     $cr++;
-  //   }
-  // }
+  $model = $data->model;
+  $plants = $data->plant;
 
+  $strToSearch = "";
+  $length = count($plants);
+  for ($i = 0; $i < $length; $i++) {
+    if($i == 0){
+        $strToSearch = "Plant ='" . $plants[$i] . "'";
+    }
+    else {
+      $strToSearch = $strToSearch . " OR Plant ='" . $plants[$i] . "'";
+    }
+  }
+  //per day
+  if($timenr == 1){
+    $sql = "SELECT Date,Plant,SUM(Total_Runtime) AS tot_run FROM dbhm WHERE (".$strToSearch.") AND (Replace(Equipment,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')) AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') Group by Plant,Date ORDER BY Date DESC";
+    if($result = mysqli_query($connect,$sql)){
+      $cr = 1;
+      while($row = mysqli_fetch_assoc($result))
+      {
+        $hours[$cr]['Date'] = $row['Date'];
+        $hours[$cr]['Plant'] = $row['Plant'];
+        $hours[$cr]['Total_Runtime'] = $row['tot_run'];
+        $cr++;
+      }
+    }
 
-  // $model = $date->model;
-  //
-  // $sql = "SELECT plantno FROM asset where model='".$model."'";
-  //
-  // if($timenr == 1){
-  //
-  // }
-  // else if ($timenr == 2){
-  //
-  // }
-  // else if($timenr == 3){
-  //
-  // }
-  // if($result = mysqli_query($connect,$sql)){
-  //   $cr = 1;
-  //   while($row = mysqli_fetch_assoc($result)){
-  //     $hours[$cr]['plantno'] = $row['plantno'];
-  //     $cr++;
-  //   }
-  // }
+    $sql = "SELECT Date,SUM(Delay) AS totalDelay FROM dbdt where (".$strToSearch.") AND  (Replace(Equipment,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')) AND STR_TO_DATE(Date,'%Y-%m-%d') <= DATE('".$endDate."') AND STR_TO_DATE(Date,'%Y-%m-%d') >= DATE('".$startDate."') GROUP BY Plant,Date ORDER BY Date DESC";
+
+    if($result = mysqli_query($connect,$sql))
+    {
+      $count = mysqli_num_rows($result);
+
+      $cr = 1;
+      while($row = mysqli_fetch_assoc($result))
+      {
+        if($row['Date']){
+          $hours[$cr]['Date'] = $row['Date'];
+        }
+          $hours[$cr]['Delay'] = round($row['totalDelay']/60);
+          $cr++;
+      }
+    }
+  }
+  //per month
+  else if ($timenr == 2) {
+    $sql = "SELECT Month_Period,Plant,SUM(Total_Runtime) AS tot_run FROM dbhm WHERE (".$strToSearch.") AND (Replace(Equipment,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')) AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." Group by Plant,Month_Period ORDER BY CAST(Month_Period AS UNSIGNED) DESC";
+    if($result = mysqli_query($connect,$sql)){
+      $cr = 1;
+      while($row = mysqli_fetch_assoc($result))
+      {
+        $hours[$cr]['Date'] = $row['Month_Period'];
+        $hours[$cr]['Plant'] = $row['Plant'];
+        $hours[$cr]['Total_Runtime'] = $row['tot_run'];
+        $cr++;
+      }
+    }
+
+    $sql = "SELECT Month_Period,SUM(Delay) AS totalDelay FROM dbdt where (".$strToSearch.") AND  (Replace(Equipment,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')) AND Month_Period <= ".$endDate." AND Month_Period >= ".$startDate." GROUP BY Plant,Month_Period ORDER BY CAST(Month_Period AS UNSIGNED) DESC";
+
+    if($result = mysqli_query($connect,$sql))
+    {
+      $count = mysqli_num_rows($result);
+
+      $cr = 1;
+      while($row = mysqli_fetch_assoc($result))
+      {
+        if($row['Month_Period']){
+          $hours[$cr]['Date'] = $row['Month_Period'];
+        }
+          $hours[$cr]['Delay'] = round($row['totalDelay']/60);
+          $cr++;
+      }
+    }
+  }
+  //per year
+  else if ($timenr == 3){
+    $sql = "SELECT Year_Period,Plant,SUM(Total_Runtime) AS tot_run FROM dbhm WHERE (".$strToSearch.") AND (Replace(Equipment,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')) AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." Group by Plant,Year_Period ORDER BY CAST(Year_Period AS UNSIGNED) DESC";
+    if($result = mysqli_query($connect,$sql)){
+      $cr = 1;
+      while($row = mysqli_fetch_assoc($result))
+      {
+        $hours[$cr]['Date'] = $row['Year_Period'];
+        $hours[$cr]['Plant'] = $row['Plant'];
+        $hours[$cr]['Total_Runtime'] = $row['tot_run'];
+        $cr++;
+      }
+    }
+
+    $sql = "SELECT Year_Period,SUM(Delay) AS totalDelay FROM dbdt where (".$strToSearch.") AND  (Replace(Equipment,' ','') IN (SELECT plantno FROM asset WHERE model='".$model."')) AND Year_Period <= ".$endDate." AND Year_Period >= ".$startDate." GROUP BY Plant,Year_Period ORDER BY CAST(Year_Period AS UNSIGNED) DESC";
+
+    if($result = mysqli_query($connect,$sql))
+    {
+      $count = mysqli_num_rows($result);
+
+      $cr = 1;
+      while($row = mysqli_fetch_assoc($result))
+      {
+        if($row['Year_Period']){
+          $hours[$cr]['Date'] = $row['Year_Period'];
+        }
+          $hours[$cr]['Delay'] = round($row['totalDelay']/60);
+          $cr++;
+      }
+    }
+  }
 }
 
 $json = json_encode($hours);

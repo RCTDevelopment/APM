@@ -9,6 +9,15 @@ function cubesperhourService($http) {
   //   return  $http.post('angular/api/getDownTime.php',{Equipment:parseInt(equipment)})
   // }
   //
+
+  this.getModels = function(){
+    return $http.post("angular/api/getModels.php");
+  }
+
+  this.getModelsPerType = function(type,plant){
+    return $http.post("angular/api/getModelsPerType.php",{plant : plant,type : type});
+  }
+
   this.getPlants = function(){
     return $http.post("angular/api/getPlants.php");
   }
@@ -90,10 +99,11 @@ function cubesperhourService($http) {
     return $http.post("angular/api/getCubesPerDozerPerHour.php",request);
   }
 
-  this.getEquipments = function(selectedType,selectedPlant){
+  this.getEquipments = function(chosenModel,selectedPlant,chosenType){
     var toSend = {
-      type : selectedType,
-      plant : selectedPlant
+      model : chosenModel,
+      plant : selectedPlant,
+      type : chosenType
     }
     return $http.post("angular/api/getEquipment.php", toSend);
   }
@@ -124,5 +134,18 @@ function cubesperhourService($http) {
 
   this.getRunTimePerEquipmentPerYear = function(request){
     return $http.post("angular/api/getRunTimePerEquipmentPerYear.php",request);
+  }
+
+  this.getCubesPerModel = function(time,model,plants,start,end){
+    //FIX FUCKUP HERE
+    var toSend = {
+      plant : plants,
+      model : model,
+      timenr : time,
+      startDate : start,
+      endDate : end
+    }
+    return $http.post("angular/api/getCubesPerModel.php",toSend);
+
   }
 }

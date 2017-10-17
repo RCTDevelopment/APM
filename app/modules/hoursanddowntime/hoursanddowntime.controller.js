@@ -21,8 +21,6 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
   $scope.selectedFrom = null;
   $scope.selectedTo = null;
 
-
-  //define a scope variable to bind to the DOM
   init();
 
 
@@ -40,6 +38,7 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
     else {
       $scope.series = ['Hours worked', 'Downtimes'];
       $scope.labels = [];
+      $scope.graphLabels = [];
       $scope.data = [[],[]];
       Chart.defaults.global.colors = [ '#0085CF', '#ff6347', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
       $scope.totalHoursWorked = 0;
@@ -49,8 +48,14 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
         $scope.selectedTo = $scope.endDate;
       }
       else if($scope.selectedTime == 'month'){
-        $scope.selectedFrom = $scope.fromMonth;
-        $scope.selectedTo = $scope.toMonth;
+        if($scope.selectedFrom > $scope.selectedTo){
+          DialogService.showAlert(ev, 'Month', 'The month values are invalid', 'Re enter');
+        }
+        else{
+          $scope.selectedFrom = $scope.fromMonth;
+          $scope.selectedTo = $scope.toMonth;
+        }
+
       }
       else if($scope.selectedTime =='year'){
         $scope.selectedFrom = $scope.fromYear;
@@ -60,7 +65,8 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
         $scope.hours = response.data;
         for(var i=1; i < Object.keys($scope.hours).length+1; i++)
         {
-          $scope.labels.push($scope.hours[i].Date);
+          $scope.labels.push({'Date' : $scope.hours[i].Date});
+          $scope.graphLabels.push($scope.hours[i].Date);
           if($scope.hours[i].Total_Runtime){
             $scope.data[0][i-1] = $scope.hours[i].Total_Runtime;
           }
@@ -91,6 +97,9 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
       $scope.startDate = new Date();
       $scope.endDate = new Date();
       $scope.maxDate = new Date();
+      vm.hService.getModels().then(function(response){
+        $scope.models = response.data;
+      })
     //werk aan rerouting na not auth state toe as hier kak is. Log vir nou.
     } else {
       $state.go('login')
@@ -103,9 +112,17 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
     })
   }
 
-  $scope.getEquipment = function(selectedType,selectedPlant){
-    vm.hService.getEquipments(selectedType,selectedPlant).then(function(response){
+  $scope.getEquipment = function(chosenModel,selectedPlant,chosenType){
+    $scope.selectedEquipment = null;
+    vm.hService.getEquipments(chosenModel,selectedPlant,chosenType).then(function(response){
       $scope.equipments = response.data;
     })
   }
+
+  $scope.getModelsPerType = function(selectedType,selectedPlant){
+    vm.hService.getModelsPerType(selectedType,selectedPlant).then(function(response){
+      $scope.modelsPerType = response.data;
+    })
+  }
+
 }

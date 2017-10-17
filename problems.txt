@@ -1,0 +1,19 @@
+EXCAVO D/B
+EXCAVO TANK
+TANK
+TYRE DOZER
+w/cart
+
+TO CLEAN
+Tanks -> Tank
+Trucks -> Truck
+
+Notes:
+Downtimes over 12
+Equipment that is hired
+Fix refresh of dropdowns
+
+Script :
+DELETE FROM dbhm WHERE Type = "EXCAVO D/B" OR Type = "EXCAVO TANK" OR Type = "TANK" OR Type = "TYRE DOZER" OR Type="W/Cart";
+UPDATE dbhm SET Type = "Tank" WHERE Type = "Tanks";
+UPDATE dbhm SET Type = "Truck" WHERE Type = "Trucks";

@@ -87,7 +87,15 @@
 
         </div>
         <div layout-gt-sm="row">
-          <md-input-container class="md-block" flex-gt-sm>
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='model'">
+            <label>Model:</label>
+            <md-select ng-model="selectedModel">
+              <md-option ng-repeat="model in models" value="{{model.model}}">
+                {{model.model}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm ng-hide="selectedType=='model'">
             <label>Site:</label>
             <md-select ng-model="selectedPlant" ng-change="getTypes(selectedPlant)">
               <md-option ng-repeat="plant in plants" value="{{plant.Plant}}">
@@ -95,11 +103,27 @@
               </md-option>
             </md-select>
           </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='model'">
+            <label>Site:</label>
+            <md-select ng-model="selectedPlant" multiple>
+              <md-option ng-repeat="plant in plants" value="{{plant.Plant}}">
+                {{plant.Plant}}
+              </md-option>
+            </md-select>
+          </md-input-container>
           <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='type' || selectedType=='equipment'">
             <label>Type:</label>
-            <md-select ng-model="chosenType" ng-change="getEquipment(chosenType,selectedPlant)">
+            <md-select ng-model="chosenType" ng-change="getModelsPerType(chosenType,selectedPlant)">
               <md-option ng-repeat="type in types" value="{{type.type}}">
                 {{type.type}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='equipment'">
+            <label>Model:</label>
+            <md-select ng-model="chosenModel" ng-change="getEquipment(chosenModel,selectedPlant,chosenType)">
+              <md-option ng-repeat="model in modelsPerType" value="{{model.model}}">
+                {{model.model}}
               </md-option>
             </md-select>
           </md-input-container>

@@ -8,6 +8,10 @@ function hoursanddowntimeService($http) {
   // this.getDowntimes = function(equipment){
   //   return  $http.post('angular/api/getDownTime.php',{Equipment:parseInt(equipment)})
   // }
+  this.getModels = function(){
+    return $http.post("angular/api/getModels.php");
+  }
+
   this.getHoursAndDowntime = function(type,time,start,end,plant,chosenType,equipments,model){
     var typenr = 0;
     var timenr = 0;
@@ -62,10 +66,15 @@ function hoursanddowntimeService($http) {
     return $http.post("angular/api/getTypes.php",{plant : selectedPlant});
   }
 
-  this.getEquipments = function(selectedType,selectedPlant){
+  this.getModelsPerType = function(type,plant){
+    return $http.post("angular/api/getModelsPerType.php",{plant : plant,type : type});
+  }
+
+  this.getEquipments = function(chosenModel,selectedPlant,chosenType){
     var toSend = {
-      type : selectedType,
-      plant : selectedPlant
+      model : chosenModel,
+      plant : selectedPlant,
+      type : chosenType
     }
     return $http.post("angular/api/getEquipment.php", toSend);
   }

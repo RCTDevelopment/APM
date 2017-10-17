@@ -94,7 +94,7 @@
               </md-option>
             </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm>
+          <md-input-container class="md-block" flex-gt-sm ng-hide="selectedType=='model'">
             <label>Site:</label>
             <md-select ng-model="selectedPlant" ng-change="getTypes(selectedPlant)">
               <md-option ng-repeat="plant in plants" value="{{plant.Plant}}">
@@ -102,11 +102,27 @@
               </md-option>
             </md-select>
           </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='model'">
+            <label>Site:</label>
+            <md-select ng-model="selectedPlant" multiple>
+              <md-option ng-repeat="plant in plants" value="{{plant.Plant}}">
+                {{plant.Plant}}
+              </md-option>
+            </md-select>
+          </md-input-container>
           <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='type' || selectedType=='equipment'">
             <label>Type:</label>
-            <md-select ng-model="chosenType" ng-change="getEquipment(chosenType,selectedPlant)">
+            <md-select ng-model="chosenType" ng-change="getModelsPerType(chosenType,selectedPlant)">
               <md-option ng-repeat="type in types" value="{{type.type}}">
                 {{type.type}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm ng-show="selectedType=='equipment'">
+            <label>Model:</label>
+            <md-select ng-model="chosenModel" ng-change="getEquipment(chosenModel,selectedPlant,chosenType)">
+              <md-option ng-repeat="model in modelsPerType" value="{{model.model}}">
+                {{model.model}}
               </md-option>
             </md-select>
           </md-input-container>
@@ -130,7 +146,7 @@
          </md-card-title-text>
       </md-card-title>
       <md-card-content>
-        <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels" chart-series="series" colour="colours"></canvas>
+        <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="graphLabels" chart-series="series" colour="colours"></canvas>
 
         <md-table-container>
         <table md-table md-row-select multiple>
@@ -138,7 +154,7 @@
             <tr md-row>
               <th md-column>{{hours[1].Plant}}</th>
               <th md-column>Total</th>
-              <th md-column ng-repeat="label in labels"><span>{{label}}</span></th>
+              <th md-column ng-repeat="label in labels"><span>{{label.Date}}</span></th>
             </tr>
           </thead>
           <tbody md-body>

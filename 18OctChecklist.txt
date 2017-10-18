@@ -1,0 +1,7 @@
+Add search button in the asset register. DONE
+Add a notification on all the reports if the chosen data cannot be found at the specific site. DONE
+Fix the month periods. DONE
+Create link for the downtimes in the hours vs downtime report.
+Start with Bongani’s report
+Die blou kleure moet verskil as mens enige iets vergelyk.
+Ennn verander die ratios op die grafieke. Amper vergeet ek… DONE (Slegs vir cubes though. hours and downtime kan nie by 0 begin nie)

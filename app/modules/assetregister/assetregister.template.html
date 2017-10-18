@@ -5,6 +5,10 @@
             <div class="md-toolbar-tools">
                <span>Asset Management Control Panel</span>
                <div flex></div>
+               <md-input-container>
+                <label> Search Table </label>
+                 <input  ng-model="filter.search">
+               </md-input-container>
                <md-button class="md-icon-button" ng-click="addAsset()">
                   <md-tooltip md-direction="top">Add new asset</md-tooltip>
                   <md-icon>add</md-icon>

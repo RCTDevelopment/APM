@@ -35,6 +35,9 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
     {
         DialogService.showAlert(ev, 'Plant', 'Please selected a plant', 'Re enter');
     }
+    else if($scope.selectedTime == "month" && parseInt($scope.fromMonth) > parseInt($scope.toMonth)){
+        DialogService.showAlert(ev, 'Months', 'Month values selected are invalid', 'Re enter');
+    }
     else {
       $scope.series = ['Hours worked', 'Downtimes'];
       $scope.labels = [];
@@ -62,26 +65,31 @@ function hoursanddowntimeController($state, principal,$scope,hoursanddowntimeSer
         $scope.selectedTo = $scope.toYear;
       }
       vm.hService.getHoursAndDowntime($scope.selectedType,$scope.selectedTime,$scope.selectedFrom,$scope.selectedTo,$scope.selectedPlant,$scope.chosenType,$scope.selectedEquipment,$scope.selectedModel).then(function(response){
-        $scope.hours = response.data;
-        for(var i=1; i < Object.keys($scope.hours).length+1; i++)
-        {
-          $scope.labels.push({'Date' : $scope.hours[i].Date});
-          $scope.graphLabels.push($scope.hours[i].Date);
-          if($scope.hours[i].Total_Runtime){
-            $scope.data[0][i-1] = $scope.hours[i].Total_Runtime;
+        if(response.data.length == 0){
+            DialogService.showAlert(ev, 'No Data', 'No data was found for the request', 'Re enter');
+        }
+        else {
+          $scope.hours = response.data;
+          for(var i=1; i < Object.keys($scope.hours).length+1; i++)
+          {
+            $scope.labels.push({'Date' : $scope.hours[i].Date});
+            $scope.graphLabels.push($scope.hours[i].Date);
+            if($scope.hours[i].Total_Runtime){
+              $scope.data[0][i-1] = $scope.hours[i].Total_Runtime;
+            }
+            else {
+              $scope.data[0][i-1] = 0;
+              $scope.hours[i].Total_Runtime = 0;
+            }
+            if($scope.hours[i].Delay){
+              $scope.data[1][i-1] = $scope.hours[i].Delay*-1;
+            }else {
+              $scope.data[1][i-1] = 0;
+              $scope.hours[i].Delay = 0;
+            }
+            $scope.totalHoursWorked += parseInt($scope.hours[i].Total_Runtime);
+            $scope.totalDowntime += $scope.hours[i].Delay;
           }
-          else {
-            $scope.data[0][i-1] = 0;
-            $scope.hours[i].Total_Runtime = 0;
-          }
-          if($scope.hours[i].Delay){
-            $scope.data[1][i-1] = $scope.hours[i].Delay*-1;
-          }else {
-            $scope.data[1][i-1] = 0;
-            $scope.hours[i].Delay = 0;
-          }
-          $scope.totalHoursWorked += parseInt($scope.hours[i].Total_Runtime);
-          $scope.totalDowntime += $scope.hours[i].Delay;
         }
       })
     }
